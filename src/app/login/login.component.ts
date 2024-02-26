@@ -17,11 +17,10 @@ export class LoginComponent {
   }
   login(){
     if (this.username == 'admin' && this.password == 'admin123') {
-      // this.logIn.emit(true)
       this.sharedService.setLoggedInUsername(this.username);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/dashboard']);
     } else {
-      // this.logIn.emit(false)
+      alert('password or username incorrect')
     }
   }
 }
