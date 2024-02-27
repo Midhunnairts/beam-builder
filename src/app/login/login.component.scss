@@ -19,13 +19,12 @@
     padding: 3rem;
     backdrop-filter: blur(100px);
     grid-template-columns: repeat(2, 1fr);
-    border-radius: 1rem;
+    // border-radius: 1rem;
 
     @media only screen and (max-width: 767px) {
       display: flex;
       flex-direction: column;
-      margin: 0;
-      border-radius: 0;
+      padding: 0.2rem;
     }
 
     .logo-contianer {
@@ -33,10 +32,11 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background: #000;
+      background: #ffffffa3;
       margin: 2rem;
       border-radius: 0.8rem;
-      color: #f9f9f9;
+      color: #000000;
+      border: 1px solid #fff;
 
       h1 {
         font-weight: 700;
@@ -45,9 +45,6 @@
       .project-logo {
         width: 8.5rem;
         height: 8rem;
-        background: #fff;
-        backdrop-filter: blur(100px);
-        border-radius: 50%;
       }
 
       @media only screen and (max-width: 767px) {
@@ -65,7 +62,7 @@
       padding: 0 2rem;
 
       @media only screen and (max-width: 767px) {
-        padding:0 1rem 2rem 1rem;
+        padding: 0 1rem 2rem 1rem;
       }
 
       .custom-input {
