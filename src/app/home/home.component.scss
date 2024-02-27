@@ -12,6 +12,10 @@
     display: grid;
     justify-items: center;
     row-gap: 1rem;
+    backdrop-filter: blur(100px);
+    width: 100%;
+    height: -webkit-fill-available;
+    align-content: center;
 
     h1 {
       font-weight: 700;
