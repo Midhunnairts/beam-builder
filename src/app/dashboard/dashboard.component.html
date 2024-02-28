@@ -1,120 +1,128 @@
 <app-navbar></app-navbar>
-<div>
-    length
-    <input type="number" class="input">
-</div>
-<button (click)="mainScreen='mainSupport'">
-    support
-</button>
-<div *ngIf="mainScreen=='mainSupport'">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-        </button>
-        <ul class="dropdown-menu">
-            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='pinSupport'">pin support</li>
-            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='rollerSupport'">roller support</li>
-            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='fixedSupport'">fixed support</li>
-            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='internalHing'">internal hing</li>
-        </ul>
-    </div>
-</div>
-
-<button (click)="mainScreen='mainLoad'">
-    load
-</button>
-<div *ngIf="mainScreen=='mainLoad'">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" typeinternal hing="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Dropdown button
-        </button>
-        <ul class="dropdown-menu">
-            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='pointLoad'">point load</li>
-            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='BendingMoment'">bending moment</li>
-            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='uniDistLoad'">uniformely distributed></li>
-            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='triangularLoad'">triangular load</li>
-        </ul>
-    </div>
-</div>
-
-<div *ngIf="mainScreen=='mainSupport'">
-    <ng-container *ngIf="screen=='pinSupport'">
-        <input type="radio" id="age1" name="age" value="30">
-        <label for="age1">left</label><br>
-        <input type="radio" id="age2" name="age" value="60">
-        <label for="age2">right</label><br>
-        <input type="radio" id="age3" name="age" value="100">
-        <label for="age3">position</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
-    <ng-container *ngIf="screen=='rollerSupport'">
-        <input type="radio" id="age1" name="age" value="30">
-        <label for="age1">left</label><br>
-        <input type="radio" id="age2" name="age" value="60">
-        <label for="age2">right</label><br>
-        <input type="number" id="age3" name="age" value="100">
-        <label for="age3">position</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
-    <ng-container *ngIf="screen=='fixedSupport'">
-        <input type="radio" id="age1" name="age" value="30">
-        <label for="age1">left</label><br>
-        <input type="radio" id="age2" name="age" value="60">
-        <label for="age2">right</label><br>
-    </ng-container>
-    <ng-container *ngIf="screen=='internalHing'">
-        <label for="age3">position</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
-</div>
-<div *ngIf="mainScreen=='mainLoad'">
-    <ng-container *ngIf="screen=='pointLoad'">
-        <label for="age3">position</label>
-        <input type="number" id="" name="" value="100">
-        load magnitude
-
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" typeinternal hing="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Dropdown button
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">up</a></li>
-                <li><a class="dropdown-item" href="#">down</a></li>
-            </ul>
+<div class="outer-wrapper">
+    <div class="sidebar-section">
+        <div>
+            length
+            <input type="number" class="input">
         </div>
-        <label for="age3">angle</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
+        <button (click)="mainScreen='mainSupport'">
+            support
+        </button>
+        <div *ngIf="mainScreen=='mainSupport'">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='pinSupport'">pin support</li>
+                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='rollerSupport'">roller support</li>
+                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='fixedSupport'">fixed support</li>
+                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='internalHing'">internal hing</li>
+                </ul>
+            </div>
+        </div>
+        
+        <button (click)="mainScreen='mainLoad'">
+            load
+        </button>
+        <div *ngIf="mainScreen=='mainLoad'">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" typeinternal hing="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='pointLoad'">point load</li>
+                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='BendingMoment'">bending moment</li>
+                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='uniDistLoad'">uniformely distributed></li>
+                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='triangularLoad'">triangular load</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div *ngIf="mainScreen=='mainSupport'">
+            <ng-container *ngIf="screen=='pinSupport'">
+                <input type="radio" id="age1" name="age" value="30">
+                <label for="age1">left</label><br>
+                <input type="radio" id="age2" name="age" value="60">
+                <label for="age2">right</label><br>
+                <input type="radio" id="age3" name="age" value="100">
+                <label for="age3">position</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+            <ng-container *ngIf="screen=='rollerSupport'">
+                <input type="radio" id="age1" name="age" value="30">
+                <label for="age1">left</label><br>
+                <input type="radio" id="age2" name="age" value="60">
+                <label for="age2">right</label><br>
+                <input type="number" id="age3" name="age" value="100">
+                <label for="age3">position</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+            <ng-container *ngIf="screen=='fixedSupport'">
+                <input type="radio" id="age1" name="age" value="30">
+                <label for="age1">left</label><br>
+                <input type="radio" id="age2" name="age" value="60">
+                <label for="age2">right</label><br>
+            </ng-container>
+            <ng-container *ngIf="screen=='internalHing'">
+                <label for="age3">position</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+        </div>
+        <div *ngIf="mainScreen=='mainLoad'">
+            <ng-container *ngIf="screen=='pointLoad'">
+                <label for="age3">position</label>
+                <input type="number" id="" name="" value="100">
+                load magnitude
+        
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" typeinternal hing="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">up</a></li>
+                        <li><a class="dropdown-item" href="#">down</a></li>
+                    </ul>
+                </div>
+                <label for="age3">angle</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+        
+        
+            <ng-container *ngIf="screen=='BendingMoment'">
+                <label for="age3">position</label>
+                <input type="number" id="" name="" value="100">
+                <label for="age3">Moment magnitude</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+        
+        
+            <ng-container *ngIf="screen=='uniDistLoad'">
+                <label for="age3">start</label>
+                <input type="number" id="" name="" value="100">
+                <label for="age3">end</label>
+                <input type="number" id="" name="" value="100">
+                <label for="age3">load</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+        
+        
+            <ng-container *ngIf="screen=='triangularLoad'">
+                <label for="age3">start</label>
+                <input type="number" id="" name="" value="100">
+                <label for="age3">end</label>
+                <input type="number" id="" name="" value="100">
+                <label for="age3">start magintude</label>
+                <input type="number" id="" name="" value="100">
+                <label for="age3">end magintude</label>
+                <input type="number" id="" name="" value="100">
+            </ng-container>
+        </div>
+    </div>
 
-
-    <ng-container *ngIf="screen=='BendingMoment'">
-        <label for="age3">position</label>
-        <input type="number" id="" name="" value="100">
-        <label for="age3">Moment magnitude</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
-
-
-    <ng-container *ngIf="screen=='uniDistLoad'">
-        <label for="age3">start</label>
-        <input type="number" id="" name="" value="100">
-        <label for="age3">end</label>
-        <input type="number" id="" name="" value="100">
-        <label for="age3">load</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
-
-
-    <ng-container *ngIf="screen=='triangularLoad'">
-        <label for="age3">start</label>
-        <input type="number" id="" name="" value="100">
-        <label for="age3">end</label>
-        <input type="number" id="" name="" value="100">
-        <label for="age3">start magintude</label>
-        <input type="number" id="" name="" value="100">
-        <label for="age3">end magintude</label>
-        <input type="number" id="" name="" value="100">
-    </ng-container>
+    <div class="drawing-ground">
+        
+    </div>
 </div>

@@ -1,0 +1,10 @@
+.outer-wrapper {
+    display: flex;
+    height: 900px;
+
+    .drawing-ground {
+        width: 1300px;
+        height: 100%;
+        border: 1px solid black;
+    }
+}
