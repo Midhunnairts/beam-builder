@@ -7,6 +7,8 @@ import { SharedService } from '../shared.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  screen:string=''
+  mainScreen:string=''
   loggedInUsername : string = '';
   constructor(private sharedService: SharedService){
 
