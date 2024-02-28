@@ -1,128 +1,194 @@
 <app-navbar></app-navbar>
 <div class="outer-wrapper">
-    <div class="sidebar-section">
+    <div class="sidebar-section ">
         <div>
-            length
-            <input type="number" class="input">
+            Length
+            <input type="number" class="input" class="form-control">
         </div>
-        <button (click)="mainScreen='mainSupport'">
-            support
-        </button>
-        <div *ngIf="mainScreen=='mainSupport'">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown button
+        <div class="d-grid gap-2 my-3">
+            <div class="d-grid gap-2">
+                <button (click)="mainScreen='mainSupport'" class="btn btn-dark">
+                    support
                 </button>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='pinSupport'">pin support</li>
-                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='rollerSupport'">roller support</li>
-                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='fixedSupport'">fixed support</li>
-                    <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='internalHing'">internal hing</li>
-                </ul>
-            </div>
-        </div>
-        
-        <button (click)="mainScreen='mainLoad'">
-            load
-        </button>
-        <div *ngIf="mainScreen=='mainLoad'">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" typeinternal hing="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Dropdown button
-                </button>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='pointLoad'">point load</li>
-                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='BendingMoment'">bending moment</li>
-                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='uniDistLoad'">uniformely distributed></li>
-                    <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='triangularLoad'">triangular load</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div *ngIf="mainScreen=='mainSupport'">
-            <ng-container *ngIf="screen=='pinSupport'">
-                <input type="radio" id="age1" name="age" value="30">
-                <label for="age1">left</label><br>
-                <input type="radio" id="age2" name="age" value="60">
-                <label for="age2">right</label><br>
-                <input type="radio" id="age3" name="age" value="100">
-                <label for="age3">position</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
-            <ng-container *ngIf="screen=='rollerSupport'">
-                <input type="radio" id="age1" name="age" value="30">
-                <label for="age1">left</label><br>
-                <input type="radio" id="age2" name="age" value="60">
-                <label for="age2">right</label><br>
-                <input type="number" id="age3" name="age" value="100">
-                <label for="age3">position</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
-            <ng-container *ngIf="screen=='fixedSupport'">
-                <input type="radio" id="age1" name="age" value="30">
-                <label for="age1">left</label><br>
-                <input type="radio" id="age2" name="age" value="60">
-                <label for="age2">right</label><br>
-            </ng-container>
-            <ng-container *ngIf="screen=='internalHing'">
-                <label for="age3">position</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
-        </div>
-        <div *ngIf="mainScreen=='mainLoad'">
-            <ng-container *ngIf="screen=='pointLoad'">
-                <label for="age3">position</label>
-                <input type="number" id="" name="" value="100">
-                load magnitude
-        
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" typeinternal hing="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown button
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">up</a></li>
-                        <li><a class="dropdown-item" href="#">down</a></li>
-                    </ul>
+                <div *ngIf="mainScreen=='mainSupport'">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='pinSupport'">pin support
+                            </li>
+                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='rollerSupport'">roller
+                                support</li>
+                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='fixedSupport'">fixed
+                                support
+                            </li>
+                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='internalHing'">internal
+                                hing
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <label for="age3">angle</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
-        
-        
-            <ng-container *ngIf="screen=='BendingMoment'">
-                <label for="age3">position</label>
-                <input type="number" id="" name="" value="100">
-                <label for="age3">Moment magnitude</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
-        
-        
-            <ng-container *ngIf="screen=='uniDistLoad'">
-                <label for="age3">start</label>
-                <input type="number" id="" name="" value="100">
-                <label for="age3">end</label>
-                <input type="number" id="" name="" value="100">
-                <label for="age3">load</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
-        
-        
-            <ng-container *ngIf="screen=='triangularLoad'">
-                <label for="age3">start</label>
-                <input type="number" id="" name="" value="100">
-                <label for="age3">end</label>
-                <input type="number" id="" name="" value="100">
-                <label for="age3">start magintude</label>
-                <input type="number" id="" name="" value="100">
-                <label for="age3">end magintude</label>
-                <input type="number" id="" name="" value="100">
-            </ng-container>
+                <div *ngIf="mainScreen=='mainSupport'" class="form-group d-grid">
+                    <ng-container *ngIf="screen=='pinSupport'">
+                        <div>
+                            <input type="radio" id="age1" name="age" value="30" class="form-check-input">
+                            <label for="age1" role="button" class="px-2">Left</label><br>
+                        </div>
+                        <div>
+                            <input type="radio" id="age2" name="age" value="60" class="form-check-input">
+                            <label for="age2" role="button" class="px-2">right</label><br>
+                        </div>
+                        <div>
+                            <input type="radio" id="age3" name="age" value="100" class="form-check-input">
+                            <label for="age3" role="button" class="px-2">position</label>
+                        </div>
+                        <div class="my-3">
+                            <input type="number" id="" name="" value="100" class="form-control">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="screen=='rollerSupport'">
+                        <div>
+                            <input type="radio" id="age1" name="age" value="30" class="form-check-input">
+                            <label for="age1" role="button" class="px-2">Left</label><br>
+                        </div>
+                        <div>
+                            <input type="radio" id="age2" name="age" value="60" class="form-check-input">
+                            <label for="age2" role="button" class="px-2">right</label><br>
+                        </div>
+                        <div>
+                            <input type="radio" id="age3" name="age" value="100" class="form-check-input">
+                            <label for="age3" role="button" class="px-2">position</label>
+                        </div>
+                        <div class="my-3">
+                            <input type="number" id="" name="" value="100" class="form-control">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="screen=='fixedSupport'">
+                        <div>
+                            <input type="radio" id="age1" name="age" value="30" class="form-check-input">
+                            <label for="age1" role="button" class="px-2">Left</label><br>
+                        </div>
+                        <div class="mb-3">
+                            <input type="radio" id="age2" name="age" value="60" class="form-check-input">
+                            <label for="age2" role="button" class="px-2">right</label><br>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="screen=='internalHing'">
+                        <div class="mb-3">
+                            <input type="radio" id="age3" name="age" value="100" class="form-check-input">
+                            <label for="age3" role="button" class="px-2">position</label>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="d-grid gap-2">
+                <button (click)="mainScreen='mainLoad'" class="btn btn-dark">
+                    load
+                </button>
+                <div *ngIf="mainScreen=='mainLoad'">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" typeinternal hing="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='pointLoad'">point load
+                            </li>
+                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='BendingMoment'">bending
+                                moment
+                            </li>
+                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='uniDistLoad'">
+                                uniformely
+                                distributed></li>
+                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='triangularLoad'">
+                                triangular
+                                load</li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="mainScreen=='mainLoad'">
+                    <ng-container *ngIf="screen=='pointLoad'">
+                        <div>
+                            <label for="age1" role="button" class="px-2">Position</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div class="  my-3 ">
+                            <label for="age1" role="button" class="px-2">Load magnitude</label><br>
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" typeinternal hing="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Dropdown
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">up</a></li>
+                                    <li><a class="dropdown-item" href="#">down</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="age1" role="button" class="px-2">Angle</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                    </ng-container>
+
+
+                    <ng-container *ngIf="screen=='BendingMoment'">
+                        <div>
+                            <label for="age1" role="button" class="px-2">Position</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div class="my-2">
+                            <label for="age1" role="button" class="px-2">Moment magnitude</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                    </ng-container>
+
+
+                    <ng-container *ngIf="screen=='uniDistLoad'">
+                        <div>
+                            <label for="age1" role="button" class="px-2">Start</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div class="my-2">
+                            <label for="age1" role="button" class="px-2">End</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div>
+                            <label for="age1" role="button" class="px-2">Load</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                    </ng-container>
+
+
+                    <ng-container *ngIf="screen=='triangularLoad'">
+                        <div>
+                            <label for="age1" role="button" class="px-2">Start</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div class="my-2">
+                            <label for="age1" role="button" class="px-2">End</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div>
+                            <label for="age1" role="button" class="px-2">Start magnitude</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                        <div class="my-2">
+                            <label for="age1" role="button" class="px-2">End magnitude</label><br>
+                            <input type="number" class="form-control" value="100">
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
         </div>
+
+
+
     </div>
 
     <div class="drawing-ground">
-        
+
     </div>
 </div>
