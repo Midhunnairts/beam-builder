@@ -11,11 +11,12 @@ export class DashboardComponent implements OnInit {
   mainScreen: string = ''
   loggedInUsername: string = '';
   myBeam: Beam = {
-    length: 10,
+    length: 100,
     support: [
       { type: 'fixed', position: 0 },
-      // { type: 'roller', position: 5 },
-      // { type: 'pinned', position: 10 },
+      { type: 'roller', position: 25 },
+      { type: 'pinned', position: 100 },
+      { type:'hing',position:75}
     ],
     load: [
       // { type: 'fixed', value: 100, position: 2, angle: 90 },

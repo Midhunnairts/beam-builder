@@ -29,12 +29,13 @@ interface MomentLoad extends BaseLoad {
 }
 
 type Load = FixedLoad | DistributedLoad | TriangularLoad | MomentLoad;
+interface support {
+    type: SupportType;
+    position: number;
+}
 
 export interface Beam {
   length: number;
-  support: {
-    type: SupportType;
-    position: number;
-  }[];
+  support: support[];
   load: Load[];
 }
