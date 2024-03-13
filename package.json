@@ -20,8 +20,10 @@
     "@angular/router": "^16.2.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
-    "konva": "^9.3.3",
+    "konva": "^9.3.2",
     "rxjs": "~7.8.0",
+    "structure": "^2.0.1",
+    "structure-js": "^0.15.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AboutComponent } from './about/about.component';
 import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PlaygroundComponent } from './dashboard/playground/playground.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HomeComponent,
     NavbarComponent,
     AboutComponent,
-    DashboardComponent
+    DashboardComponent,
+    PlaygroundComponent
   ],
   imports: [
     BrowserModule,
