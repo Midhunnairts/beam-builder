@@ -32,7 +32,7 @@ export interface MomentLoad extends BaseLoad {
 }
 
 type Load = FixedLoad | DistributedLoad | TriangularLoad | MomentLoad;
-interface support {
+export interface support {
     type: SupportType;
     position: number;
 }
