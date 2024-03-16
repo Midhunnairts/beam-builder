@@ -1,6 +1,90 @@
-<div class="navbar">
-    <div class="d-flex gap-2 align-items-center"><img src="/assets/images/cead-logo.png" class="navbar-logo" />
-        <h3 class="m-0">CEAD</h3>
+<!-- <div class="navbar">
+  <a href="/" class="d-flex gap-2 align-items-center">
+    <img src="/assets/images/cead-logo.png" class="navbar-logo" />
+    <h3 class="m-0">CEAD</h3>
+  </a>
+  <div></div>
+  <button (click)="navigate()">concrete bars</button>
+</div> -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex gap-2 align-items-center" href="#"
+      ><img src="/assets/images/cead-logo.png" class="navbar-logo" />
+      <h3 class="m-0">CEAD</h3></a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse justify-content-md-end"
+      id="navbarSupportedContent"
+    >
+      <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li>
+      </ul> -->
+      <div class="d-flex gap-3">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Features
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Design of beam</a></li>
+              <li><a class="dropdown-item" href="#">Design of column</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">Design of footing</a></li>
+              <li><a class="dropdown-item" href="#">Design of slab</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-dark d-flex gap-2 align-items-center">
+              Generate PDF<img src="assets/images/download.svg" width="16px" />
+            </button>
+          </li>
+          <li class="nav-item ">
+            <button class="btn btn-danger d-flex gap-2 align-items-center">Logout<img src="assets/images/logout.svg" width="16px" /></button>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div></div>
-</div>
+  </div>
+</nav>

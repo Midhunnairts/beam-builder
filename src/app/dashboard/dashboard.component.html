@@ -1,196 +1,324 @@
 <app-navbar></app-navbar>
 <div class="outer-wrapper">
-    <div class="sidebar-section ">
-        <div>
-            Length
-            <input type="number" class="input" class="form-control">
-        </div>
-        <div class="d-grid gap-2 my-3">
-            <div class="d-grid gap-2">
-                <!-- <button (click)="mainScreen='mainSupport'" class="btn btn-dark">
-                    support
-                </button>
-                <div *ngIf="mainScreen=='mainSupport'"> -->
-                <div (click)="mainScreen='mainSupport'">
-                    <div class="dropdown">
-                        <button class="btn btn-dark dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Support
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='pinSupport'">pin support
-                            </li>
-                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='rollerSupport'">roller
-                                support</li>
-                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='fixedSupport'">fixed
-                                support
-                            </li>
-                            <li class="dropdown-item" (click)="mainScreen='mainSupport';screen='internalHing'">internal
-                                hing
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div *ngIf="mainScreen=='mainSupport'" class="form-group d-grid">
-                    <ng-container *ngIf="screen=='pinSupport'">
-                        <div>
-                            <input type="radio" id="age1" name="age" value="30" class="form-check-input">
-                            <label for="age1" role="button" class="px-2">Left</label><br>
-                        </div>
-                        <div>
-                            <input type="radio" id="age2" name="age" value="60" class="form-check-input">
-                            <label for="age2" role="button" class="px-2">right</label><br>
-                        </div>
-                        <div>
-                            <input type="radio" id="age3" name="age" value="100" class="form-check-input">
-                            <label for="age3" role="button" class="px-2">position</label>
-                        </div>
-                        <div class="my-3">
-                            <input type="number" id="" name="" value="100" class="form-control">
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="screen=='rollerSupport'">
-                        <div>
-                            <input type="radio" id="age1" name="age" value="30" class="form-check-input">
-                            <label for="age1" role="button" class="px-2">Left</label><br>
-                        </div>
-                        <div>
-                            <input type="radio" id="age2" name="age" value="60" class="form-check-input">
-                            <label for="age2" role="button" class="px-2">right</label><br>
-                        </div>
-                        <div>
-                            <input type="radio" id="age3" name="age" value="100" class="form-check-input">
-                            <label for="age3" role="button" class="px-2">position</label>
-                        </div>
-                        <div class="my-3">
-                            <input type="number" id="" name="" value="100" class="form-control">
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="screen=='fixedSupport'">
-                        <div>
-                            <input type="radio" id="age1" name="age" value="30" class="form-check-input">
-                            <label for="age1" role="button" class="px-2">Left</label><br>
-                        </div>
-                        <div class="mb-3">
-                            <input type="radio" id="age2" name="age" value="60" class="form-check-input">
-                            <label for="age2" role="button" class="px-2">right</label><br>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="screen=='internalHing'">
-                        <div class="mb-3">
-                            <input type="radio" id="age3" name="age" value="100" class="form-check-input">
-                            <label for="age3" role="button" class="px-2">position</label>
-                        </div>
-                    </ng-container>
-                </div>
+  <div class="sidebar-section">
+    <div class="container">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="tab1-tab" data-bs-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+            aria-selected="true">Length</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab2-tab" data-bs-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+            aria-selected="false">Supports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab3-tab" data-bs-toggle="tab" href="#tab3" role="tab" aria-controls="tab3"
+            aria-selected="false">Load</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab4-tab" data-bs-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
+            aria-selected="false">Calculation</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active mt-3" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+          <div>
+            Beam Length (m)
+            <input type="number" class="input" class="form-control" [(ngModel)]="myBeam.length" />
+          </div>
+          <div class="mt-3">
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Meter
+              </button>
+              <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item disabled">Millimeter (mm)</a></li>
+                <li><a class="dropdown-item disabled">Centimeter (cm)</a></li>
+                <li><a class="dropdown-item disabled">Decimeter (dm)</a></li>
+                <li><a class="dropdown-item">Meter (m)</a></li>
+                <li><a class="dropdown-item disabled">Inch (in)</a></li>
+                <li><a class="dropdown-item disabled">Yard (yd)</a></li>
+                <li><a class="dropdown-item disabled">Foot (ft)</a></li>
+              </ul>
             </div>
-            <div class="d-grid gap-2">
-                <!-- <button (click)="mainScreen='mainLoad'" class="btn btn-dark">
-                    load
-                </button>
-                <div *ngIf="mainScreen=='mainLoad'"> -->
-                <div (click)="mainScreen='mainLoad'">
-                    <div class="dropdown">
-                        <button class="btn btn-dark dropdown-toggle w-100" typeinternal hing="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown button
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='pointLoad'">point load
-                            </li>
-                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='BendingMoment'">bending
-                                moment
-                            </li>
-                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='uniDistLoad'">
-                                uniformely
-                                distributed></li>
-                            <li class="dropdown-item" (click)="mainScreen='mainLoad';screen='triangularLoad'">
-                                triangular
-                                load</li>
-                        </ul>
-                    </div>
-                </div>
-                <div *ngIf="mainScreen=='mainLoad'">
-                    <ng-container *ngIf="screen=='pointLoad'">
-                        <div>
-                            <label for="age1" role="button" class="px-2">Position</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div class="  my-3 ">
-                            <!-- <label for="age1" role="button" class="px-2 "></label><br> -->
-                            <div class="dropdown">
-                                <button class="btn btn-warning dropdown-toggle  w-100" typeinternal hing="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Load magnitude
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">up</a></li>
-                                    <li><a class="dropdown-item" href="#">down</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div>
-                            <label for="age1" role="button" class="px-2">Angle</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                    </ng-container>
-
-
-                    <ng-container *ngIf="screen=='BendingMoment'">
-                        <div>
-                            <label for="age1" role="button" class="px-2">Position</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div class="my-2">
-                            <label for="age1" role="button" class="px-2">Moment magnitude</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                    </ng-container>
-
-
-                    <ng-container *ngIf="screen=='uniDistLoad'">
-                        <div>
-                            <label for="age1" role="button" class="px-2">Start</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div class="my-2">
-                            <label for="age1" role="button" class="px-2">End</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div>
-                            <label for="age1" role="button" class="px-2">Load</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                    </ng-container>
-
-
-                    <ng-container *ngIf="screen=='triangularLoad'">
-                        <div>
-                            <label for="age1" role="button" class="px-2">Start</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div class="my-2">
-                            <label for="age1" role="button" class="px-2">End</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div>
-                            <label for="age1" role="button" class="px-2">Start magnitude</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                        <div class="my-2">
-                            <label for="age1" role="button" class="px-2">End magnitude</label><br>
-                            <input type="number" class="form-control" value="100">
-                        </div>
-                    </ng-container>
-                </div>
+          </div>
+          <div class="mt-3">
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Kilonewton (kN)
+              </button>
+              <ul class="dropdown-menu w-100">
+                <li><a class="dropdown-item disabled">Newton (N)</a></li>
+                <li><a class="dropdown-item">Kilonewton (kN)</a></li>
+                <li><a class="dropdown-item disabled">Meganewton (mN)</a></li>
+                <li><a class="dropdown-item disabled">Gram-force (kgF)</a></li>
+                <li><a class="dropdown-item disabled">Kilogram-force (kgF)</a></li>
+                <li><a class="dropdown-item disabled">Ton-force (tf)</a></li>
+                <li><a class="dropdown-item disabled">Poundal (pdl)</a></li>
+                <li><a class="dropdown-item disabled">Pound-force (lbf)</a></li>
+                <li><a class="dropdown-item disabled">Kip-force (klp)</a></li>
+              </ul>
             </div>
+          </div>
+
         </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+          <div class="pt-3">
+            <ul class="nav nav-tabs support-tab-wrapper" id="supportTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active bg-dark d-flex justify-content-center align-item-center" id="tab5-tab"
+                  data-bs-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="true"
+                  style="height: 72px;"><img src="/assets/images/sup_fixed.svg" alt="Option 1"
+                    style="max-width: 100px;"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-dark d-flex justify-content-center align-item-center" id="tab6-tab"
+                  data-bs-toggle="tab" href="#tab6" role="tab" aria-controls="tab6" aria-selected="false"
+                  style="height: 72px;"><img src="/assets/images/sup_fluid.svg" alt="Option 1"
+                    style="max-width: 100px;"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-dark d-flex justify-content-center align-item-center" id="tab7-tab"
+                  data-bs-toggle="tab" href="#tab7" role="tab" aria-controls="tab7" aria-selected="false"
+                  style="height: 72px;"><img src="/assets/images/sup_anchorage.svg" alt="Option 3"
+                    style="max-width: 100px;"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-dark d-flex justify-content-center align-item-center" id="tab8-tab"
+                  data-bs-toggle="tab" href="#tab8" role="tab" aria-controls="tab8" aria-selected="false"
+                  style="height: 72px;"> <img src="/assets/images/sup_release.svg" alt="Option 4" style="width: 20px;">
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active mt-3" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+                <h6>Add a Pin support</h6>
+                <div class="form-group">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option1" name="options" class="custom-control-input" checked>
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option1">
+                      On the left
+                    </label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option2" name="options" class="custom-control-input">
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option2">
+                      On the right
+                    </label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option3" name="options" class="custom-control-input">
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option3">
+                      Position (m)
+                    </label>
+                  </div>
+                  <div class="my-3 d-flex justify-content-end">
+                    <button class="btn btn-success w-100">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="tab6-tab">
+                <div class="tab-pane fade show active mt-3" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+                  <h6>Add a Roller support</h6>
+                  <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="option1" name="options" class="custom-control-input" checked>
+                      <label class="custom-control-label ms-2 cursor-pointer" for="option1">
+                        On the left
+                      </label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="option2" name="options" class="custom-control-input">
+                      <label class="custom-control-label ms-2 cursor-pointer" for="option2">
+                        On the right
+                      </label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="option3" name="options" class="custom-control-input">
+                      <label class="custom-control-label ms-2 cursor-pointer" for="option3">
+                        Position (m)
+                      </label>
+                    </div>
+                    <div class="my-3 d-flex justify-content-end">
+                      <button class="btn btn-success w-100">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade mt-3" id="tab7" role="tabpanel" aria-labelledby="tab7-tab">
+                <h6>Add a Fixed support</h6>
+                <div class="form-group">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option1" name="options" class="custom-control-input" checked>
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option1">
+                      On the left
+                    </label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option2" name="options" class="custom-control-input">
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option2">
+                      On the right
+                    </label>
+                  </div>
+                  <div class="my-3 d-flex justify-content-end">
+                    <button class="btn btn-success w-100">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade mt-3" id="tab8" role="tabpanel" aria-labelledby="tab8-tab">
+                <h6>Add a Internal hinge</h6>
+                <div class="mt-3">
+                  Position (m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="my-3 d-flex justify-content-end">
+                  <button class="btn btn-success w-100">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+          <div class="pt-3">
+            <ul class="nav nav-tabs support-tab-wrapper" id="supportTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active bg-dark d-flex justify-content-center align-item-center" id="tab9-tab"
+                  data-bs-toggle="tab" href="#tab9" role="tab" aria-controls="tab9" aria-selected="true"
+                  style="height: 72px;"><img src="/assets/images/pressure_1.svg" alt="Option 1"
+                    style="max-width: 100px;"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-dark d-flex justify-content-center align-item-center" id="tab10-tab"
+                  data-bs-toggle="tab" href="#tab10" role="tab" aria-controls="tab10" aria-selected="false"
+                  style="height: 72px;"><img src="/assets/images/pressure_2.svg" alt="Option 1"
+                    style="max-width: 100px;"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-dark d-flex justify-content-center align-item-center" id="tab11-tab"
+                  data-bs-toggle="tab" href="#tab11" role="tab" aria-controls="tab11" aria-selected="false"
+                  style="height: 72px;"><img src="/assets/images/pressure_3.svg" alt="Option 3"
+                    style="max-width: 100px;"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-dark d-flex justify-content-center align-item-center" id="tab12-tab"
+                  data-bs-toggle="tab" href="#tab12" role="tab" aria-controls="tab12" aria-selected="false"
+                  style="height: 72px;"> <img src="/assets/images/pressure_4.svg" alt="Option 4"
+                    style="max-width: 100px;">
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active mt-3" id="tab9" role="tabpanel" aria-labelledby="tab9-tab">
+                <h6>Add a Point Load</h6>
+                <div class="mt-3">
+                  Position (m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="mt-2">
+                  Load Magnitude (kN)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="my-3 d-flex justify-content-end">
+                  <button class="btn btn-success w-100">Add</button>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab10" role="tabpanel" aria-labelledby="tab10-tab">
+                <div class="tab-pane fade show active mt-3" id="tab9" role="tabpanel" aria-labelledby="tab9-tab">
+                  <h6>Add a Bending Momentum</h6>
+                  <div class="mt-3">
+                    Position (m)
+                    <input type="number" class="input" class="form-control" />
+                  </div>
+                  <div class="mt-2">
+                    Moment Magnitude (kN)
+                    <input type="number" class="input" class="form-control" />
+                  </div>
+                  <div class="my-3 d-flex justify-content-end">
+                    <button class="btn btn-success w-100">Add</button>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade mt-3" id="tab11" role="tabpanel" aria-labelledby="tab11-tab">
+                <h6>Add a Uniformly Distributed Load</h6>
+                <div class="mt-3">
+                  Start Position (m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="mt-2">
+                  End Position (m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="mt-2">
+                  Load Magnitude (kN/m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="my-3 d-flex justify-content-end">
+                  <button class="btn btn-success w-100">Add</button>
+                </div>
+              </div>
+              <div class="tab-pane fade mt-3" id="tab12" role="tabpanel" aria-labelledby="tab12-tab">
+                <h6>Add a Triangular/Trapezoidal Load</h6>
+                <div class="mt-3">
+                  Start Position (m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="mt-2">
+                  End Position (m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="mt-2">
+                  Start Magnitude (kN/m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="mt-2">
+                  End Magnitude (kN/m)
+                  <input type="number" class="input" class="form-control" />
+                </div>
+                <div class="my-3 d-flex justify-content-end">
+                  <button class="btn btn-success w-100">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-
-
+        </div>
+        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+          <div class="my-3 d-flex justify-content-end">
+            <button class="btn btn-success w-100">Calculate</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="drawing-ground">
-        <app-playground [beam]="myBeam"></app-playground>
+
+
+
+    <!-- <div>
+      Length
+      <input type="number" class="input" class="form-control" [(ngModel)]="myBeam.length" />
     </div>
+    <div class="d-grid gap-2 my-3">
+      <div class="d-grid gap-2">
+        <div >
+          <button class="btn btn-dark dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Support
+          </button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" (click)="setSupport('pinned')">pin support</li>
+            <li class="dropdown-item" (click)="setSupport('roller')">roller support</li>
+            <li class="dropdown-item" (click)="setSupport('fixed')">fixed support</li>
+            <li class="dropdown-item" (click)="setSupport('hing')">internal hing</li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+
+
+  <div class="drawing-ground">
+    <app-playground [beam]="myBeam"></app-playground>
+  </div>
 </div>

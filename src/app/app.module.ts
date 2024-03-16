@@ -7,9 +7,11 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AboutComponent } from './about/about.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PlaygroundComponent } from './dashboard/playground/playground.component';
+import { ConcreteComponent } from './concrete/concrete.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,15 @@ import { PlaygroundComponent } from './dashboard/playground/playground.component
     NavbarComponent,
     AboutComponent,
     DashboardComponent,
-    PlaygroundComponent
+    PlaygroundComponent,
+    ConcreteComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

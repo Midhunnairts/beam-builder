@@ -1,0 +1,191 @@
+<app-navbar></app-navbar>
+<h2>Calculator</h2>
+<div class="d-md-flex gap-5 m-3">
+  <div class="d-flex flex-column gap-3">
+    <div class="concrete-input-wrapper">
+      <label for="beamLength"> Length</label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="beamLength"
+          [(ngModel)]="beamLength"
+          (keypress)="handleKeyPress($event, calculateM)"
+          class="form-control"
+        />
+        <span>mm</span>
+      </div>
+    </div>
+    <div class="concrete-input-wrapper">
+      <label for="beamDepth"> Depth</label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="beamDepth"
+          [(ngModel)]="beamDepth"
+          (keypress)="handleKeyPress($event, calculateM)"
+          class="form-control"
+        />
+        <span>mm</span>
+      </div>
+    </div>
+    <div class="concrete-input-wrapper">
+      <label for="effective"> Effective cover</label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="effective"
+          [(ngModel)]="effectiveCover"
+          (keypress)="handleKeyPress($event, calculateM)"
+          class="form-control"
+        />
+        <span>mm</span>
+      </div>
+    </div>
+    <div class="concrete-input-wrapper" >   <label for="bendingMoment">Bending Moment</label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="bendingMoment"
+          [(ngModel)]="bendingMoment"
+          (keypress)="handleKeyPress($event, calculateM)"
+          class="form-control"
+        />
+        <span>Nm</span>
+      </div>
+    </div>
+    <div class="concrete-input-wrapper">
+      <label for="sigmaCBC">σ<sub>cbc</sub></label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="sigmaCBC"
+          [(ngModel)]="sigmaCBC"
+          (keypress)="handleKeyPress($event, calculateM)"
+          class="form-control"
+        />
+        <span>N/mm²</span>
+      </div>
+    </div>
+    <div class="concrete-input-wrapper">
+      <label for="sigmaST">σ<sub>st</sub></label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="sigmaST"
+          [(ngModel)]="sigmaST"
+          (keypress)="handleKeyPress($event, calculateM)"
+          class="form-control"
+        />
+        <span>N/mm²</span>
+      </div>
+    </div>
+    <div class="concrete-input-wrapper">
+      <label for="noOfBars">No of bars</label>
+      <div class="d-flex gap-2 align-items-center">
+        <input
+          type="number"
+          id="noOfBars"
+          [(ngModel)]="noOfBars"
+          (keypress)="handleKeyPress($event, calculateAPhi)"
+          class="form-control"
+        />
+        <span></span>
+      </div>
+    </div>
+    <div class="d-md-flex gap-3 my-3">
+      <button (click)="resetCalculated()" class="btn btn-light col-md-6 mb-3">
+        Reset
+      </button>
+
+      <button (click)="calculate()" class="btn btn-dark col-md-6 col-12 mb-3">
+        Calculate
+      </button>
+    </div>
+  </div>
+  <div>
+    <div class="values-output">
+      <p class="">m:</p>
+      <p class="" *ngIf="m !== ''">
+        <b>{{ m }}</b> mm
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">k:</p>
+      <p class="" *ngIf="k !== ''">
+        <b>{{ k }}</b>
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">j:</p>
+      <p class="" *ngIf="j !== ''">
+        <b>{{ j }}</b>
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">r:</p>
+      <p class="" *ngIf="r !== ''">
+        <b>{{ r }}</b> N/mm²
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">n:</p>
+      <p class="" *ngIf="n !== ''">
+        <b>{{ n }}</b> mm
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">m1:</p>
+      <p class="" *ngIf="mOne !== ''">
+        <b>{{ mOne }}</b> Nmm
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">m2:</p>
+      <p class="" *ngIf="mTwo !== ''">
+        <b>{{ mTwo }}</b> Nmm
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">Ast1:</p>
+      <p class="" *ngIf="aSTOne !== ''">
+        <b>{{ aSTOne }}</b> mm²
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">Ast2:</p>
+      <p class="" *ngIf="aSTTwo !== ''">
+        <b>{{ aSTTwo }}</b> mm²
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">Ast:</p>
+      <p class="" *ngIf="aST !== ''">
+        <b>{{ aST }}</b> mm²
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">AΦ:</p>
+      <p class="" *ngIf="aPhi !== ''">
+        <b>{{ aPhi }}</b> mm²
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">No of bars:</p>
+      <p class="" *ngIf="barsRequired !== ''">
+        <b>{{ barsRequired }}</b>
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">Asc:</p>
+      <p class="" *ngIf="aSC !== ''">
+        <b>{{ aSC }}</b> mm²
+      </p>
+    </div>
+    <div class="values-output">
+      <p class="">Bars required:</p>
+      <p class="" *ngIf="totalNoOfBars !== ''">
+        <b>{{ totalNoOfBars }}</b>
+      </p>
+    </div>
+  </div>
+</div>
