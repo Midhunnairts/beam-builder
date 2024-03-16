@@ -126,10 +126,13 @@ export class PlaygroundComponent implements AfterViewInit {
     }
 
 
-    const layerShear = this.createShearAndBendingMoment(ratio);
+    // const layerShear = this.createShearAndBendingMoment(ratio);
+    let shear = this.calcShear()
+    const layerShear = this.drawShearForce(shear.forces, ratio)
+    const layerMoment = this.drawMomentForce(shear.moments, ratio)
 
     layer.add(line);
-    stage.add(layer, layerShear);
+    stage.add(layer, layerShear,layerMoment);
   }
 
   private createFixedSupport(x: number, y: number): Konva.Line {
@@ -348,197 +351,290 @@ export class PlaygroundComponent implements AfterViewInit {
     return group;
   }
 
+  calcShear() {
+    let ra = 0
+    let rb = 0
+    let sumLoad = 0
+    let sload = 0
+    for (const l of this.beam.load) {
+      if (l.type == 'pin' || l.type == 'moment') {
+        sumLoad = sumLoad + (l.position * ((l as FixedLoad).value));
+        sload = sload + (l as FixedLoad).value
+      }
+      else if (l.type == 'distributed') {
+        let diff = (l as DistributedLoad).end - (l as DistributedLoad).start
 
-
-
-  calculateShearAndBending(sectionPosition: number) {
-    // Initialize the reactions at supports
-    let Ay = 0;
-    let By = 0;
-
-    // Iterate through supports and calculate reactions
-    for (const support of this.beam.support) {
-      if (support.type === 'fixed') {
-        Ay += 1;  // Replace with the actual calculation for a fixed support
-        By += 1;  // Replace with the actual calculation for a fixed support
-      } else if (support.type === 'roller') {
-        By += 1;  // Replace with the actual calculation for a roller support
-      } else if (support.type === 'pinned') {
-        Ay += 1;  // Replace with the actual calculation for a pinned support
-      } else if (support.type === 'hing') {
-        // Replace with the actual calculation for a hinge support
+        sumLoad = sumLoad + ((diff * (l as DistributedLoad).value) * ((diff / 2) + (l as DistributedLoad).start))
+        sload = sload + (diff * (l as DistributedLoad).value)
+      } else if (l.type == 'triangular') {
+        let diff = (l as TriangularLoad).end - (l as TriangularLoad).start
+        let hdiff = (l as TriangularLoad).endValue - (l as TriangularLoad).startValue
+        let tValue = (2 * diff) / 3
+        let tarea = diff * hdiff / 2
+        let rarea = (l as TriangularLoad).startValue * diff
+        sumLoad = sumLoad + ((tarea + rarea) * (tValue + (l as TriangularLoad).start))
+        sload = sload + ((tarea + rarea) * diff)
       }
     }
+    rb = sumLoad / this.beam.length
+    ra = sload - (sumLoad / this.beam.length)
 
-    // Initialize the moment at supports
-    let Ma = 0;
-    let Mb = 0;
+    let common: any[] = []
+    for (const s of this.beam.support) {
+      common.push(s)
+    }
+    for (const l of this.beam.load) {
+      common.push(l)
+    }
+    let forces = []
+    common.sort((a, b) => a.position - b.position);
+    console.log(common);
 
-    // Initialize shear force and bending moment at the specified section
-    let shearForce = 0;
-    let bendingMoment = 0;
-
-    // Iterate through loads and calculate reactions, shear forces, and bending moments
-    for (const load of this.beam.load) {
-      if (load.type === 'pin') {
-        // Calculate reactions due to pin support
-        Ay += (load as FixedLoad).value * Math.sin((load as FixedLoad).angle * (Math.PI / 180));
-        By += (load as FixedLoad).value * Math.cos((load as FixedLoad).angle * (Math.PI / 180));
-
-        // Calculate shear force due to pin support
-        shearForce += (load as FixedLoad).value * Math.sin((load as FixedLoad).angle * (Math.PI / 180));
-      } else if (load.type === 'distributed') {
-        // Calculate reactions, shear force, and bending moment due to distributed load
-        const loadLength = (load as DistributedLoad).end - (load as DistributedLoad).start;
-        const loadCenter = ((load as DistributedLoad).start + (load as DistributedLoad).end) / 2;
-
-        const wx = (load as DistributedLoad).value / loadLength;
-        const a = (load as DistributedLoad).start;
-        const b = (load as DistributedLoad).end;
-
-        Ay += wx * (b - a);
-        By += wx * (b - a) * (b + a) / 2;
-
-        if (sectionPosition >= (load as DistributedLoad).start && sectionPosition <= (load as DistributedLoad).end) {
-          shearForce -= wx * (sectionPosition - a);
-          bendingMoment -= wx * Math.pow(sectionPosition - loadCenter, 2) / 2;
+    let prevValue;
+    for (const c of common) {
+      if (!c.value) {
+        if (!prevValue) {
+          const obj = {
+            position: c.position,
+            force: Math.abs(ra),
+            type: c.type
+          }
+          forces.push(
+            obj
+          )
+          prevValue = obj
         }
-      } else if (load.type === 'triangular') {
-        // Calculate reactions, shear force, and bending moment due to triangular load
-        const loadLength = (load as TriangularLoad).end - (load as TriangularLoad).start;
-        const loadCenter = ((load as TriangularLoad).start + (load as TriangularLoad).end) / 2;
+        else {
+          let obj: { position: number, force: number, type: string } = {
+            position: 0,
+            force: 0,
+            type: ''
+          };
 
-        const wa = ((load as TriangularLoad).endValue - (load as TriangularLoad).startValue) / loadLength;
-        const a = (load as TriangularLoad).start;
-        const b = (load as TriangularLoad).end;
+          obj = {
+            position: c.position,
+            force: prevValue.force,
+            type: c.type
+          }
+          forces.push(
+            obj
+          )
+          prevValue = obj
 
-        Ay += wa * (b - a) / 2;
-        By += wa * (b - a) * (b + a) / 4;
-
-        if (sectionPosition >= (load as TriangularLoad).start && sectionPosition <= (load as TriangularLoad).end) {
-          const x = sectionPosition - (load as TriangularLoad).start;
-          shearForce -= wa * x;
-          bendingMoment -= wa * Math.pow(x, 2) / 2;
         }
-      } else if (load.type === 'moment') {
-        // Calculate reactions and bending moment due to applied moment
-        Ma -= (load as MomentLoad).value;
-        Mb += (load as MomentLoad).value;
+      }
+      else {
+        if (prevValue) {
+          let obj: { position: number, force: number, type: string } = {
+            position: 0,
+            force: 0,
+            type: ''
+          };
 
-        // Calculate bending moment at the specified section
-        if (sectionPosition <= load.position) {
-          bendingMoment -= (load as MomentLoad).value * (sectionPosition - load.position);
+          if (c.type == 'distributed') {
+
+            obj = {
+              position: c.position,
+              force: prevValue.force - (c.value * (c.end - c.start)),
+              type: c.type
+            }
+          } else if (c.type == 'triangular') {
+            let diff = (c as TriangularLoad).end - (c as TriangularLoad).start
+            let hdiff = (c as TriangularLoad).endValue - (c as TriangularLoad).startValue
+            let tValue = (2 * diff) / 3
+            let tarea = diff * hdiff / 2
+            let rarea = (c as TriangularLoad).startValue * diff
+
+            obj = {
+              position: c.position,
+              force: prevValue.force - ((tarea + rarea) * diff),
+              type: c.type
+            }
+          } else {
+
+            obj = {
+              position: c.position,
+              force: prevValue.force - c.value,
+              type: c.type
+            }
+          }
+
+          forces.push(
+            obj
+          )
+          prevValue = obj
         }
       }
     }
+    let moments = []
+    let preCommon
+    console.log(common);
+    
+    for (const c of common) {
+      if (c.position == 0 || c.position == this.beam.length) {
+        let o = {
+          position: c.position,
+          moment: 0,
+          type:c.type
+        }
+        moments.push(o);
+      }
+      else {
+        if (preCommon) {
 
-    // Calculate reactions at the specified section
-    Ay -= shearForce * sectionPosition / this.beam.length;
-    By += shearForce * (1 - sectionPosition / this.beam.length);
+          let mom = 0
+          if (preCommon.value) {
+            if(preCommon.type=='distributed'){
+              mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - preCommon.position))
+            } else if(preCommon.type=='distributed'){
 
-    // Calculate bending moment at the specified section
-    bendingMoment += Ma * (1 - sectionPosition / this.beam.length) + Mb * sectionPosition / this.beam.length;
+            } else{
+              mom = (ra * c.position) - (preCommon.value * (c.position - preCommon.position))
+            }
+          } else {
+            mom = ra * c.position
+          }
+          let o = {
+            position: c.position,
+            moment: mom,
+            type: c.type
+          }
+          moments.push(o);
+        }
+      }
+      preCommon = c
+    }
 
-    return { shearForce, bendingMoment };
+
+    return { forces, moments }
   }
 
-
-  createShearAndBendingMoment(ratio: number) {
+  drawShearForce(shear: any, ratio: number) {
     const layerShear = new Konva.Layer();
     let points = []
-    let shearArray=[]
-    let bendArray=[]
+    let shearArray = []
+    let bendArray = []
     const line = new Konva.Line({
       points: [50, 400, 900, 400], // [x1, y1, x2, y2]
       stroke: 'grey',
       strokeWidth: 2,
     });
-    const line2 = new Konva.Line({
-      points: [50, 800, 900, 800], // [x1, y1, x2, y2]
-      stroke: 'grey',
-      strokeWidth: 2,
+
+    layerShear.add(line)
+    let dRatio = 1
+    for (const s of shear) {
+      if (s.force < 10) {
+        dRatio = 10
+      } else {
+        dRatio = 1
+        break;
+      }
+    }
+
+    for (let i = 0; i < shear.length - 1; i++) {
+
+      const sh = shear[i]
+      const nsh = shear[i + 1]
+
+      if (sh.type == 'fixed') {
+        shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
+        shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
+      }
+      else if (sh.type == 'pin' || sh.type == 'moment') {
+        shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
+        shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
+      }
+      else if (sh.type == 'distributed') {
+        let psh = shear[i - 1]
+        shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
+        shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
+      } else if (sh.type == 'triangular') {
+        let psh = shear[i - 1]
+        shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
+        shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
+      }
+      const line = new Konva.Line({
+        points: [(sh.position * ratio) + 50, 200, (sh.position * ratio) + 50, 1600],
+        stroke: 'grey', // Set the color
+        strokeWidth: 1, // Set the width
+      });
+
+      // Add the line to the layer
+      layerShear.add(line);
+
+
+    }
+    const last = new Konva.Line({
+      points: [900, 200, 900, 1600],
+      stroke: 'grey', // Set the color
+      strokeWidth: 1, // Set the width
     });
-    layerShear.add(line, line2)
-    if (this.beam.support) {
-
-      for (const support of this.beam.support) {
-
-        // Create a vertical line shape
-        const line = new Konva.Line({
-          points: [(support.position * ratio) + 50, 200, (support.position * ratio) + 50, 1200],
-          stroke: 'grey', // Set the color
-          strokeWidth: 1, // Set the width
-        });
-        points.unshift(support.position )
-        console.log(this.calculateShearAndBending(support.position), points.sort());
-
-        // Add the line to the layer
-        layerShear.add(line);
-
-      }
-    }
-    if (this.beam.load) {
-
-      for (const load of this.beam.load) {
-
-        // Create a vertical line shape
-        const line = new Konva.Line({
-          points: [(load.position * ratio) + 50, 200, (load.position * ratio) + 50, 1200],
-          stroke: 'grey', // Set the color
-          strokeWidth: 1, // Set the width
-        });
-        points.unshift(load.position)
-
-        console.log(this.calculateShearAndBending(load.position), load.position);
 
 
-        // Add the line to the layer
-        layerShear.add(line);
-
-      }
-    }
-    points=this.bubbleSort(points);
-    for (const point of points){
-      shearArray.push((point * ratio) + 50,this.calculateShearAndBending(point).shearForce+200)
-      let bend=this.calculateShearAndBending(point).bendingMoment
-      if(bend>=200){
-        bend=200
-      }
-      bendArray.push((point * ratio) + 50,(-1 * bend)+800)
-    }
     const line3 = new Konva.Line({
       points: shearArray,
       stroke: 'black', // Set the color
       strokeWidth: 2, // Set the width
     });
-    const line4 = new Konva.Line({
-      points: bendArray,
-      stroke: 'black', // Set the color
-      strokeWidth: 2, // Set the width
-    });
-    layerShear.add(line3,line4)
+
+    layerShear.add(line3, last)
 
     return layerShear;
   }
 
 
-  bubbleSort(array: number[]): number[] {
-    const n = array.length;
-    let swapped;
+  drawMomentForce(Moment: any, ratio: number) {
+    const layerMoment = new Konva.Layer();
+    let MomentArray = []
+    const line = new Konva.Line({
+      points: [50, 800, 900, 800], // [x1, y1, x2, y2]
+      stroke: 'grey',
+      strokeWidth: 2,
+    });
 
-    do {
-      swapped = false;
-      for (let i = 0; i < n - 1; i++) {
-        if (array[i] > array[i + 1]) {
-          // Swap elements if they are in the wrong order
-          const temp = array[i];
-          array[i] = array[i + 1];
-          array[i + 1] = temp;
-          swapped = true;
-        }
+    layerMoment.add(line)
+    let dRatio = 1
+    for (const s of Moment) {
+      if (s.force < 10) {
+        dRatio = 10
+      } else {
+        dRatio = 1
+        break;
       }
-    } while (swapped);
+    }
 
-    return array;
+    for (let i = 0; i < Moment.length; i++) {
+
+      const sh = Moment[i]
+      
+      MomentArray.push(50 + (sh.position * ratio), 800 - (sh.moment * dRatio))
+
+      const line = new Konva.Line({
+        points: [(sh.position * ratio) + 50, 200, (sh.position * ratio) + 50, 800],
+        stroke: 'grey', // Set the color
+        strokeWidth: 1, // Set the width
+      });
+
+      // Add the line to the layer
+      layerMoment.add(line);
+
+
+    }
+    const last = new Konva.Line({
+      points: [900, 200, 900, 800],
+      stroke: 'grey', // Set the color
+      strokeWidth: 1, // Set the width
+    });
+
+
+    const line3 = new Konva.Line({
+      points: MomentArray,
+      stroke: 'black', // Set the color
+      strokeWidth: 2, // Set the width
+    });
+
+    layerMoment.add(line3, last)
+
+    return layerMoment;
   }
 }

@@ -1,4 +1,4 @@
-export type SupportType = 'fixed' | 'roller' | 'pinned' | 'hing';
+type SupportType = 'fixed' | 'roller' | 'pinned' | 'hing';
 type LoadType = 'pin' | 'distributed' | 'triangular' | 'moment';
 
 interface BaseLoad {
@@ -24,6 +24,7 @@ export interface TriangularLoad extends BaseLoad {
   end: number;
   startValue: number;
   endValue: number;
+  value:number
 }
 
 export interface MomentLoad extends BaseLoad {

@@ -1,62 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../shared.service';
-import { Beam, SupportType } from './beam.interface';
+import { Beam } from './beam.interface'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  screen: string = '';
-  mainScreen: string = '';
+  screen: string = ''
+  mainScreen: string = ''
   loggedInUsername: string = '';
-  pinnedSupport=false
-  // myBeam: Beam = {
-  //   length: 100,
-  //   support: [
-  //     { type: 'fixed', position: 0 },
-  //     { type: 'roller', position: 25 },
-  //     { type: 'pinned', position: 100 },
-  //     { type: 'hing', position: 75 },
-  //   ],
-  //   load: [
-  //     { type: 'pin', value: 100, position: 30, angle: 90 },
-  //     { type: 'distributed', value: 50, start: 40, end: 70, position: 40 },
-  //     {
-  //       type: 'triangular',
-  //       start: 40,
-  //       end: 80,
-  //       startValue: 20,
-  //       endValue: 40,
-  //       position: 40,
-  //     },
-  //     { type: 'moment', value: 200, position: 10 },
-  //   ],
-  // };
   myBeam: Beam = {
-    length: 100,
-    support: [],
-    load: []
+    length: 10,
+    support: [
+      { type: 'fixed', position: 0 },
+      { type: 'fixed', position: 10 },
+      // { type: 'pinned', position: 100 },
+      // { type:'hing',position:75}
+    ],
+    load: [
+      { type: 'pin', value: 2, position: 2, angle: 90 },
+      { type: 'pin', value: 5, position: 6, angle: 90 },
+      // { type: 'distributed', value: 5, start: 3, end: 6, position: 3 },
+      // { type: 'triangular', start: 4, end: 8, startValue: 2, endValue: 4, position: 4,value:1 },
+      // { type: 'moment', value: 3, position: 8 },
+    ],
   };
-  constructor() {}
+  constructor(private sharedService: SharedService) {
+
+  }
   ngOnInit() {
-
-  }
-
-  isPositionSelected(): boolean {
-    return this.pinnedSupport;
-  }
-  setSupport(supportType: SupportType): void {
-    // Add the selected support type to myBeam
-    this.myBeam.support.push({ type: supportType , position: 0 });
-    console.log(this.myBeam);
-    
-  }
-
-  selectedOption: string = 'Select an Option';
-
-  selectOption(option: string) {
-    this.selectedOption = option;
+    this.sharedService.loggedInUsername$.subscribe(username => {
+      this.loggedInUsername = username;
+    });
   }
 }
