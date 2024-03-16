@@ -20,8 +20,8 @@ export class DashboardComponent implements OnInit {
     ],
     load: [
       { type: 'pin', value: 2, position: 2, angle: 90 },
-      { type: 'pin', value: 5, position: 6, angle: 90 },
-      // { type: 'distributed', value: 5, start: 3, end: 6, position: 3 },
+      // { type: 'pin', value: 5, position: 6, angle: 90 },
+      { type: 'distributed', value: 5, start: 3, end: 6, position: 3 },
       // { type: 'triangular', start: 4, end: 8, startValue: 2, endValue: 4, position: 4,value:1 },
       // { type: 'moment', value: 3, position: 8 },
     ],

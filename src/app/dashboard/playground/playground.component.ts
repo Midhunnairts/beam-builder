@@ -486,8 +486,13 @@ export class PlaygroundComponent implements AfterViewInit {
           if (preCommon.value) {
             if(preCommon.type=='distributed'){
               mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - preCommon.position))
-            } else if(preCommon.type=='distributed'){
-
+            } else if(preCommon.type=='triangular'){
+              let diff = (preCommon as TriangularLoad).end - (preCommon as TriangularLoad).start
+              let hdiff = (preCommon as TriangularLoad).endValue - (preCommon as TriangularLoad).startValue
+              let tValue = (2 * diff) / 3
+              let tarea = diff * hdiff / 2
+              let rarea = (preCommon as TriangularLoad).startValue * diff
+              mom = (ra * c.position) -  (((tarea + rarea) * diff)*tValue)
             } else{
               mom = (ra * c.position) - (preCommon.value * (c.position - preCommon.position))
             }
