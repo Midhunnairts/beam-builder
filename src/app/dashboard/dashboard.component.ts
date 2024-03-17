@@ -123,10 +123,12 @@ export class DashboardComponent {
         this.pinSupport = {
           type: 'pinned', position: 0
         }
+        this.pinSupportPos=true
       } else if (support.type == "roller") {
-        this.pinSupport = {
+        this.rollorSupport = {
           type: 'roller', position: 0
         }
+        this.pinRollorPos = true
       }
     }
     console.log(this.myBeam);
