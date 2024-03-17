@@ -10,3 +10,55 @@ body {
 label{
   font-weight: 500;
 }
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 20px;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #printable, #printable, #printable-canvas, #printable-logo, #printable-name, #printable-concrete-calculation, #konva-container * {
+    visibility: visible;
+  }
+
+  #printable-logo{
+    position: absolute;
+    left: 0;
+    top: 0px;
+  }
+
+  #printable-name{
+    position: absolute;
+    left: 60px;
+    top: 10px;
+  }
+
+  #konva-container {
+    position: absolute;
+    left: 40px;
+    top: 0;
+  }
+
+  #printable-canvas{
+    position: absolute;
+    left: 0;
+    top: 60px;
+    width: 97%;
+    height: 600px;
+  }
+
+  #printable-concrete-calculation{
+    position: absolute;
+    left: 0;
+    top: 60px;
+  }
+
+  // .printing-canvas{
+  //   max-width: 1200px;
+  //   height: 300px;
+  // }
+}
