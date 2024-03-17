@@ -512,7 +512,9 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         let o = {
           position: c.position,
           moment: 0,
-          type: c.type
+          type: c.type,
+          start: c.start,
+          end: c.end
         }
         moments.push(o);
       }
@@ -539,7 +541,9 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           let o = {
             position: c.position,
             moment: mom,
-            type: c.type
+            type: c.type,
+            start: c.start,
+            end: c.end
           }
           moments.push(o);
         }
@@ -636,6 +640,8 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       } else if (sh.type == 'triangular') {
         let psh = shear[i - 1]
         shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
+        shearArray.push(50 + (sh.end * ratio), 400 - (sh.force * dRatio))
+        shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
         var text = new Konva.Text({
           x: (sh.position + ((nsh.position - sh.position) / 2)) * ratio,
@@ -702,6 +708,23 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     for (let i = 0; i < Moment.length; i++) {
 
       const sh = Moment[i]
+      if(sh.type=='distributed'){
+        var text = new Konva.Text({
+          x: 50 + (sh.end * ratio),
+          y: 780 - (sh.moment * dRatio), // Adjust the y-coordinate as needed
+          text: sh.moment,
+          fontSize: 20,
+          fontFamily: 'Calibri',
+          fill: 'black'
+        });
+  
+        const line = new Konva.Line({
+          points: [(sh.position * ratio) + 50, 200, (sh.position * ratio) + 50, 800],
+          stroke: 'grey', // Set the color
+          strokeWidth: 1, // Set the width
+        });
+        layerMoment.add( text);
+      }
 
       MomentArray.push(50 + (sh.position * ratio), 800 - (sh.moment * dRatio))
       var text = new Konva.Text({
@@ -720,7 +743,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       });
 
       // Add the line to the layer
-      layerMoment.add(line, text);
+      layerMoment.add( text);
 
 
     }
