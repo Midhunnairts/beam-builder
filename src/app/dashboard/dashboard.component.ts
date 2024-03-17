@@ -8,10 +8,10 @@ import { every } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  constructor(private cdr:ChangeDetectorRef){
+  constructor(private cdr: ChangeDetectorRef) {
 
   }
-  calculation=0;
+  calculation = 0;
   screen: string = ''
   mainScreen: string = ''
   loggedInUsername: string = '';
@@ -105,26 +105,26 @@ export class DashboardComponent {
   }
 
   addToSupport(support: support) {
-    if(this.myBeam.support.length>=2){
+    if (this.myBeam.support.length >= 2) {
       alert("Maximum 2 supports you can add now.")
     } else {
-      
+
       this.myBeam.support.push(support);
-      this.myBeam=structuredClone(this.myBeam)
-      if(support.type=='fixed'){
-        this.fixedSupport={
+      this.myBeam = structuredClone(this.myBeam)
+      if (support.type == 'fixed') {
+        this.fixedSupport = {
           type: 'fixed', position: 0
         }
-      } else if(support.type=="hing"){
-        this.hingSupport={
+      } else if (support.type == "hing") {
+        this.hingSupport = {
           type: 'hing', position: 0
         }
-      } else if(support.type=="pinned"){
-        this.pinSupport={
+      } else if (support.type == "pinned") {
+        this.pinSupport = {
           type: 'pinned', position: 0
         }
-      }  else if(support.type=="roller"){
-        this.pinSupport={
+      } else if (support.type == "roller") {
+        this.pinSupport = {
           type: 'roller', position: 0
         }
       }
@@ -133,25 +133,25 @@ export class DashboardComponent {
   }
 
   addToLoad(load: FixedLoad | MomentLoad | DistributedLoad | TriangularLoad) {
-    if(load.type=='distributed' || load.type=='triangular'){
-      load.position=(load as DistributedLoad | TriangularLoad).start
+    if (load.type == 'distributed' || load.type == 'triangular') {
+      load.position = (load as DistributedLoad | TriangularLoad).start
     }
     this.myBeam.load.push(load);
-    this.myBeam=structuredClone(this.myBeam)
-    if(load.type == "pin"){
+    this.myBeam = structuredClone(this.myBeam)
+    if (load.type == "pin") {
       this.pinLoad = {
         value: 0,
         angle: 90,
         type: 'pin',
         position: 0
       }
-    } else if(load.type == "moment"){
+    } else if (load.type == "moment") {
       this.momentLoad = {
         value: 0,
         type: 'moment',
         position: 0
       }
-    } else if (load.type=="distributed"){
+    } else if (load.type == "distributed") {
       this.distributedLoad = {
         value: 0,
         start: 0,
@@ -160,7 +160,7 @@ export class DashboardComponent {
         position: 0
       }
     }
-    else if (load.type=="triangular"){
+    else if (load.type == "triangular") {
       this.triangulaLoad = {
         start: 0,
         end: 0,
@@ -170,9 +170,20 @@ export class DashboardComponent {
         type: 'triangular',
         position: 0
       }
-    
+
     }
     console.log(this.myBeam);
-    
+
+  }
+
+  reset() {
+    this.myBeam = {
+      length: 10,
+      support: [
+      ],
+      load: [
+
+      ],
+    }
   }
 }

@@ -21,6 +21,10 @@
           <a class="nav-link" id="tab4-tab" data-bs-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
             aria-selected="false">Calculation</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" id="tab5-tab" 
+            (click)="reset()">Reset</a>
+        </li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade show active mt-3" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
@@ -151,7 +155,7 @@
                         Position (m)
                       </label>
                       <input type="number" class="input" class="form-control" [disabled]="pinRollorPos"
-                        [(ngModel)]="pinSupport.position" />
+                        [(ngModel)]="rollorSupport.position" />
                     </div>
                     <div class="my-3 d-flex justify-content-end">
                       <button class="btn btn-success w-100" (click)="addToSupport(rollorSupport)">Add</button>
