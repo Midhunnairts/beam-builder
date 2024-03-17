@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import Konva from 'konva';
 import { Beam, DistributedLoad, FixedLoad, MomentLoad, TriangularLoad } from '../beam.interface';
 
@@ -7,18 +7,128 @@ import { Beam, DistributedLoad, FixedLoad, MomentLoad, TriangularLoad } from '..
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.scss']
 })
-export class PlaygroundComponent implements AfterViewInit {
+export class PlaygroundComponent implements AfterViewInit, OnChanges {
   @Input() beam!: Beam;
-  stage = Konva.Stage
-  layer = Konva.Layer
+  @Input() calculation:number=0
+  private stage !: Konva.Stage
+  private layer !: Konva.Layer
   @ViewChild('konvaContainer') container!: ElementRef;
+  ngOnChanges(changes: SimpleChanges): void {
+    setTimeout(() => {
+      const ratio = 850 / this.beam.length
 
+      const line = new Konva.Line({
+        points: [50, 100, 900, 100], // [x1, y1, x2, y2]
+        stroke: 'black',
+        strokeWidth: 2,
+      });
+      if (this.beam.support) {
+
+        for (const support of this.beam.support) {
+          if (support.type == 'fixed') {
+            const fixedSupport = this.createFixedSupport(
+              (support.position * ratio) + 50,
+              70,
+            );
+            this.layer.add(fixedSupport)
+
+          } else if (support.type == 'hing') {
+            const hingSupport = this.createHingSupport(
+              (support.position * ratio) + 50,
+              100,
+              8
+            );
+            this.layer.add(hingSupport)
+
+          } else if (support.type == 'roller') {
+            const rollerSupport = this.createRollerSupport(
+              (support.position * ratio) + 50,
+              116,
+              6,
+              20
+            );
+            this.layer.add(rollerSupport)
+
+          } else {
+            const pinSupport = this.createPinSupport(
+              (support.position * ratio) + 50,
+              116,
+              12,
+              6
+            );
+            this.layer.add(pinSupport)
+
+          }
+
+        }
+      }
+      if (this.beam.load) {
+
+        for (const load of this.beam.load) {
+          if (load.type == 'pin') {
+            const pinLoad = this.createPinLoad(
+              (load.position * ratio) + 50,
+              100,
+              40
+            );
+            this.layer.add(pinLoad)
+
+          } else if (load.type == 'distributed') {
+            if ('start' in load && 'end' in load) {
+              const distributedLoad = this.createDistributedLoad(
+                (load.position * ratio) + 50,
+                80,
+                (load.end - load.start) * ratio,
+                200 / 40,
+                20,
+                5
+              );
+              this.layer.add(distributedLoad)
+            }
+
+          } else if (load.type == 'moment') {
+            const momentLoad = this.createBendingMoment(
+              (load.position * ratio) + 50,
+              116,
+              20,
+            );
+            this.layer.add(momentLoad)
+
+          } else {
+            const triangularLoad = this.createtriangularLoad(
+              (load.position * ratio) + 50,
+              100,
+              200,
+              40,
+              5,
+              40,
+              5
+            );
+            this.layer.add(triangularLoad)
+
+          }
+
+
+        }
+        this.layer.add(line);
+        this.layer.batchDraw()
+      }
+    })
+    if (changes["calculation"]&&this.calculation!=0){
+      const ratio = 850 / this.beam.length
+      let shear = this.calcShear()
+      const layerShear = this.drawShearForce(shear.forces, ratio)
+      const layerMoment = this.drawMomentForce(shear.moments, ratio)
+      this.stage.add( layerShear, layerMoment);
+      this.stage.batchDraw()
+    }
+  }
   ngAfterViewInit() {
     const containerWidth = this.container.nativeElement.offsetWidth;
     const containerHeight = this.container.nativeElement.offsetHeight;
     const ratio = 850 / this.beam.length
     // Create a stage
-    const stage = new Konva.Stage({
+    this.stage = new Konva.Stage({
 
       container: 'konva-container',
       width: containerWidth,
@@ -28,111 +138,15 @@ export class PlaygroundComponent implements AfterViewInit {
 
     // Create a layer
 
-    const layer = new Konva.Layer();
+    this.layer = new Konva.Layer();
 
     // Draw a horizontal line
-    const line = new Konva.Line({
-      points: [50, 100, 900, 100], // [x1, y1, x2, y2]
-      stroke: 'black',
-      strokeWidth: 2,
-    });
-    if (this.beam.support) {
-
-      for (const support of this.beam.support) {
-        if (support.type == 'fixed') {
-          const fixedSupport = this.createFixedSupport(
-            (support.position * ratio) + 50,
-            70,
-          );
-          layer.add(fixedSupport)
-
-        } else if (support.type == 'hing') {
-          const hingSupport = this.createHingSupport(
-            (support.position * ratio) + 50,
-            100,
-            8
-          );
-          layer.add(hingSupport)
-
-        } else if (support.type == 'roller') {
-          const rollerSupport = this.createRollerSupport(
-            (support.position * ratio) + 50,
-            116,
-            6,
-            20
-          );
-          layer.add(rollerSupport)
-
-        } else {
-          const pinSupport = this.createPinSupport(
-            (support.position * ratio) + 50,
-            116,
-            12,
-            6
-          );
-          layer.add(pinSupport)
-
-        }
-
-      }
-    }
-    if (this.beam.load) {
-
-      for (const load of this.beam.load) {
-        if (load.type == 'pin') {
-          const pinLoad = this.createPinLoad(
-            (load.position * ratio) + 50,
-            100,
-            40
-          );
-          layer.add(pinLoad)
-
-        } else if (load.type == 'distributed') {
-          if ('start' in load && 'end' in load) {
-            const distributedLoad = this.createDistributedLoad(
-              (load.position * ratio) + 50,
-              80,
-              (load.end - load.start) * ratio,
-              200 / 40,
-              20,
-              5
-            );
-            layer.add(distributedLoad)
-          }
-
-        } else if (load.type == 'moment') {
-          const momentLoad = this.createBendingMoment(
-            (load.position * ratio) + 50,
-            116,
-            20,
-          );
-          layer.add(momentLoad)
-
-        } else {
-          // const triangularLoad = this.createtriangularLoad(
-          //   (load.position * ratio) + 50,
-          //   100,
-          //   200,
-          //   40,
-          //   5,
-          //   40,
-          //   5
-          // );
-          // layer.add(triangularLoad)
-
-        }
-
-      }
-    }
 
 
     // const layerShear = this.createShearAndBendingMoment(ratio);
-    let shear = this.calcShear()
-    const layerShear = this.drawShearForce(shear.forces, ratio)
-    const layerMoment = this.drawMomentForce(shear.moments, ratio)
 
-    layer.add(line);
-    stage.add(layer, layerShear,layerMoment);
+
+    this.stage.add(this.layer);
   }
 
   private createFixedSupport(x: number, y: number): Konva.Line {
@@ -469,13 +483,13 @@ export class PlaygroundComponent implements AfterViewInit {
     let moments = []
     let preCommon
     console.log(common);
-    
+
     for (const c of common) {
       if (c.position == 0 || c.position == this.beam.length) {
         let o = {
           position: c.position,
           moment: 0,
-          type:c.type
+          type: c.type
         }
         moments.push(o);
       }
@@ -484,16 +498,16 @@ export class PlaygroundComponent implements AfterViewInit {
 
           let mom = 0
           if (preCommon.value) {
-            if(preCommon.type=='distributed'){
+            if (preCommon.type == 'distributed') {
               mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - preCommon.position))
-            } else if(preCommon.type=='triangular'){
+            } else if (preCommon.type == 'triangular') {
               let diff = (preCommon as TriangularLoad).end - (preCommon as TriangularLoad).start
               let hdiff = (preCommon as TriangularLoad).endValue - (preCommon as TriangularLoad).startValue
               let tValue = (2 * diff) / 3
               let tarea = diff * hdiff / 2
               let rarea = (preCommon as TriangularLoad).startValue * diff
-              mom = (ra * c.position) -  (((tarea + rarea) * diff)*tValue)
-            } else{
+              mom = (ra * c.position) - (((tarea + rarea) * diff) * tValue)
+            } else {
               mom = (ra * c.position) - (preCommon.value * (c.position - preCommon.position))
             }
           } else {
@@ -611,7 +625,7 @@ export class PlaygroundComponent implements AfterViewInit {
     for (let i = 0; i < Moment.length; i++) {
 
       const sh = Moment[i]
-      
+
       MomentArray.push(50 + (sh.position * ratio), 800 - (sh.moment * dRatio))
 
       const line = new Konva.Line({

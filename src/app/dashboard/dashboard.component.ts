@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SharedService } from '../shared.service';
 import { BaseLoad, Beam, DistributedLoad, FixedLoad, MomentLoad, TriangularLoad, support } from './beam.interface'
 import { every } from 'rxjs';
@@ -8,6 +8,9 @@ import { every } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  constructor(private cdr:ChangeDetectorRef){
+
+  }
   screen: string = ''
   mainScreen: string = ''
   loggedInUsername: string = '';
@@ -106,6 +109,7 @@ export class DashboardComponent {
     } else {
       
       this.myBeam.support.push(support);
+      this.myBeam=structuredClone(this.myBeam)
       if(support.type=='fixed'){
         this.fixedSupport={
           type: 'fixed', position: 0
@@ -125,11 +129,11 @@ export class DashboardComponent {
       }
     }
     console.log(this.myBeam);
-
   }
 
   addToLoad(load: FixedLoad | MomentLoad | DistributedLoad | TriangularLoad) {
     this.myBeam.load.push(load);
+    this.myBeam=structuredClone(this.myBeam)
     if(load.type == "pin"){
       this.pinLoad = {
         value: 0,
