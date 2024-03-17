@@ -9,25 +9,25 @@ import { Beam, DistributedLoad, FixedLoad, MomentLoad, TriangularLoad } from '..
 })
 export class PlaygroundComponent implements AfterViewInit, OnChanges {
   @Input() beam!: Beam;
-  @Input() calculation:number=0
+  @Input() calculation: number = 0
   private stage !: Konva.Stage
   private layer !: Konva.Layer
   @ViewChild('konvaContainer') container!: ElementRef;
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.stage){
+    if (this.stage) {
 
-      this.stage.removeChildren()     
+      this.stage.removeChildren()
     }
     setTimeout(() => {
       const ratio = 850 / this.beam.length
       this.layer = new Konva.Layer();
 
       // Draw a horizontal line
-  
-  
+
+
       // const layerShear = this.createShearAndBendingMoment(ratio);
-  
-  
+
+
       this.stage.add(this.layer);
       const line = new Konva.Line({
         points: [50, 100, 900, 100], // [x1, y1, x2, y2]
@@ -110,7 +110,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
             const triangularLoad = this.createtriangularLoad(
               ((load as TriangularLoad).start * ratio) + 50,
               100,
-              ((load as TriangularLoad).end - (load as TriangularLoad).start)*ratio,
+              ((load as TriangularLoad).end - (load as TriangularLoad).start) * ratio,
               ((load as TriangularLoad).endValue - (load as TriangularLoad).startValue),
               5,
               40,
@@ -126,12 +126,12 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         this.layer.batchDraw()
       }
     })
-    if (changes["calculation"]&&this.calculation!=0){ 
+    if (changes["calculation"] && this.calculation != 0) {
       const ratio = 850 / this.beam.length
       let shear = this.calcShear()
       const layerShear = this.drawShearForce(shear.forces, ratio)
       const layerMoment = this.drawMomentForce(shear.moments, ratio)
-      this.stage.add( layerShear, layerMoment);
+      this.stage.add(layerShear, layerMoment);
       this.stage.batchDraw()
     }
   }
@@ -310,14 +310,14 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
   private createtriangularLoad(x: number, y: number, base: number, height: number, numberOfArrows: number, arrowHeight: number, arrowWidth: number): Konva.Shape {
     // Create a right-angled triangle to represent the bending moment
     console.log('ccc');
-    
+
     const triangle = new Konva.Shape({
       sceneFunc: (context, shape) => {
         context.beginPath();
         context.moveTo(x, y); // Starting point
-        context.lineTo(x+base, y); // Top right
-        context.lineTo(x+base, y-height); // Bottom right
-        context.lineTo(x, y-(height/2)); // Bottom left
+        context.lineTo(x + base, y); // Top right
+        context.lineTo(x + base, y - height); // Bottom right
+        context.lineTo(x, y - (height / 2)); // Bottom left
         context.closePath();
         // Fill color and stroke color
         context.fillStrokeShape(shape);
@@ -531,8 +531,13 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       preCommon = c
     }
 
-    console.log(forces);
-    
+    let diflection = []
+    let e = 200e9; // Modulus of elasticity in Pa (200 GPa)
+    let i = 6.67e-7;
+    for (const c of common) {
+      
+    }
+
 
     return { forces, moments }
   }
@@ -567,8 +572,8 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       if (sh.type == 'fixed' || sh.type == 'pinned' || sh.type == 'hing' || sh.type == 'roller') {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
-        console.log(shearArray,1);
-        
+        console.log(shearArray, 1);
+
       }
       else if (sh.type == 'pin' || sh.type == 'moment') {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
@@ -588,7 +593,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         stroke: 'grey', // Set the color
         strokeWidth: 1, // Set the width
       });
-console.log(shearArray);
+      console.log(shearArray);
 
       // Add the line to the layer
       layerShear.add(line);
@@ -670,5 +675,24 @@ console.log(shearArray);
     layerMoment.add(line3, last)
 
     return layerMoment;
+  }
+
+  calculateDeflection(formulaNumber: number, w: number, l: number, e: number, i: number) {
+    switch (formulaNumber) {
+      case 1:
+        return (w * Math.pow(l, 3)) / (3 * e * i);
+      case 2:
+        return (w * Math.pow(l, 4)) / (8 * e * i);
+      case 3:
+        return (w * Math.pow(l, 4)) / (30 * e * i);
+      case 4:
+        return (w * Math.pow(l, 3)) / (42 * e * i);
+      case 5:
+        return (5 * w * Math.pow(l, 4)) / (324 * e * i);
+      case 6:
+        return (w * Math.pow(l, 4)) / (324 * e * i);
+      default:
+        return NaN; // Return NaN for invalid formula numbers
+    }
   }
 }
