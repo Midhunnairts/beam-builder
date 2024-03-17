@@ -11,6 +11,7 @@ export class DashboardComponent {
   constructor(private cdr:ChangeDetectorRef){
 
   }
+  calculation=0;
   screen: string = ''
   mainScreen: string = ''
   loggedInUsername: string = '';
@@ -132,6 +133,9 @@ export class DashboardComponent {
   }
 
   addToLoad(load: FixedLoad | MomentLoad | DistributedLoad | TriangularLoad) {
+    if(load.type=='distributed' || load.type=='triangular'){
+      load.position=(load as DistributedLoad | TriangularLoad).start
+    }
     this.myBeam.load.push(load);
     this.myBeam=structuredClone(this.myBeam)
     if(load.type == "pin"){

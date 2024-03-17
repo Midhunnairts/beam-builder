@@ -299,7 +299,7 @@
         </div>
         <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
           <div class="my-3 d-flex justify-content-end">
-            <button class="btn btn-success w-100">Calculate</button>
+            <button class="btn btn-success w-100" (click)="calculation=calculation+1">Calculate</button>
           </div>
         </div>
       </div>
@@ -336,7 +336,7 @@
 
   <!------------------ Canvas start ------------------>
   <div class="drawing-ground">
-    <app-playground [beam]="myBeam"></app-playground>
+    <app-playground [beam]="myBeam" [calculation]="calculation"></app-playground>
   </div>
   <!------------------ Canvas End ------------------>
 </div>

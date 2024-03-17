@@ -14,9 +14,21 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
   private layer !: Konva.Layer
   @ViewChild('konvaContainer') container!: ElementRef;
   ngOnChanges(changes: SimpleChanges): void {
+    if(this.stage){
+
+      this.stage.removeChildren()     
+    }
     setTimeout(() => {
       const ratio = 850 / this.beam.length
+      this.layer = new Konva.Layer();
 
+      // Draw a horizontal line
+  
+  
+      // const layerShear = this.createShearAndBendingMoment(ratio);
+  
+  
+      this.stage.add(this.layer);
       const line = new Konva.Line({
         points: [50, 100, 900, 100], // [x1, y1, x2, y2]
         stroke: 'black',
@@ -114,7 +126,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         this.layer.batchDraw()
       }
     })
-    if (changes["calculation"]&&this.calculation!=0){
+    if (changes["calculation"]&&this.calculation!=0){ 
       const ratio = 850 / this.beam.length
       let shear = this.calcShear()
       const layerShear = this.drawShearForce(shear.forces, ratio)
@@ -138,15 +150,6 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
 
     // Create a layer
 
-    this.layer = new Konva.Layer();
-
-    // Draw a horizontal line
-
-
-    // const layerShear = this.createShearAndBendingMoment(ratio);
-
-
-    this.stage.add(this.layer);
   }
 
   private createFixedSupport(x: number, y: number): Konva.Line {
@@ -524,6 +527,8 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       preCommon = c
     }
 
+    console.log(forces);
+    
 
     return { forces, moments }
   }
@@ -555,9 +560,11 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       const sh = shear[i]
       const nsh = shear[i + 1]
 
-      if (sh.type == 'fixed') {
+      if (sh.type == 'fixed' || sh.type == 'pinned' || sh.type == 'hing' || sh.type == 'roller') {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
+        console.log(shearArray,1);
+        
       }
       else if (sh.type == 'pin' || sh.type == 'moment') {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
@@ -577,6 +584,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         stroke: 'grey', // Set the color
         strokeWidth: 1, // Set the width
       });
+console.log(shearArray);
 
       // Add the line to the layer
       layerShear.add(line);
