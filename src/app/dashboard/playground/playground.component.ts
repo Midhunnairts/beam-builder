@@ -309,7 +309,6 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
 
   private createtriangularLoad(x: number, y: number, base: number, height: number, numberOfArrows: number, arrowHeight: number, arrowWidth: number): Konva.Shape {
     // Create a right-angled triangle to represent the bending moment
-    console.log('ccc');
 
     const triangle = new Konva.Shape({
       sceneFunc: (context, shape) => {
@@ -377,6 +376,22 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     let rb = 0
     let sumLoad = 0
     let sload = 0
+    let common: any[] = []
+    let lastSupportPosition = 0
+    for (const s of this.beam.support) {
+      common.push(s)
+    }
+    for (const l of this.beam.load) {
+      common.push(l)
+    }
+    let forces = []
+    common.sort((a, b) => a.position - b.position);
+    for (const c of common) {
+      if (c.type == 'pinned' || c.type == 'fixed' || c.type == 'roller' || c.type == 'hing') {
+        lastSupportPosition = c.position
+      }
+    }
+
     for (const l of this.beam.load) {
       if (l.type == 'pin' || l.type == 'moment') {
         sumLoad = sumLoad + (l.position * ((l as FixedLoad).value));
@@ -397,19 +412,10 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         sload = sload + ((tarea + rarea) * diff)
       }
     }
-    rb = sumLoad / this.beam.length
-    ra = sload - (sumLoad / this.beam.length)
+    rb = sumLoad / lastSupportPosition
+    ra = sload - (sumLoad / lastSupportPosition)
 
-    let common: any[] = []
-    for (const s of this.beam.support) {
-      common.push(s)
-    }
-    for (const l of this.beam.load) {
-      common.push(l)
-    }
-    let forces = []
-    common.sort((a, b) => a.position - b.position);
-    console.log(common);
+
 
     let prevValue;
     for (const c of common) {
@@ -426,16 +432,20 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           prevValue = obj
         }
         else {
-          let obj: { position: number, force: number, type: string } = {
+          let obj: { position: number, force: number, type: string, start: number, end: number } = {
             position: 0,
             force: 0,
-            type: ''
+            type: '',
+            start: 0,
+            end: 0
           };
 
           obj = {
             position: c.position,
-            force: prevValue.force,
-            type: c.type
+            force: prevValue.force + rb,
+            type: c.type,
+            start: c.position,
+            end: c.position
           }
           forces.push(
             obj
@@ -446,10 +456,12 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       }
       else {
         if (prevValue) {
-          let obj: { position: number, force: number, type: string } = {
+          let obj: { position: number, force: number, type: string, start: number, end: number } = {
             position: 0,
             force: 0,
-            type: ''
+            type: '',
+            start: c.position,
+            end: c.position
           };
 
           if (c.type == 'distributed') {
@@ -457,7 +469,9 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
             obj = {
               position: c.position,
               force: prevValue.force - (c.value * (c.end - c.start)),
-              type: c.type
+              type: c.type,
+              start: c.start,
+              end: c.end
             }
           } else if (c.type == 'triangular') {
             let diff = (c as TriangularLoad).end - (c as TriangularLoad).start
@@ -469,14 +483,17 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
             obj = {
               position: c.position,
               force: prevValue.force - ((tarea + rarea) * diff),
-              type: c.type
+              type: c.type,
+              start: c.start,
+              end: c.end
             }
           } else {
-
             obj = {
               position: c.position,
               force: prevValue.force - c.value,
-              type: c.type
+              type: c.type,
+              start: c.position,
+              end: c.position
             }
           }
 
@@ -489,7 +506,6 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     }
     let moments = []
     let preCommon
-    console.log(common);
 
     for (const c of common) {
       if (c.position == 0 || c.position == this.beam.length) {
@@ -563,6 +579,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         break;
       }
     }
+    console.log(shear);
 
     for (let i = 0; i < shear.length - 1; i++) {
 
@@ -573,7 +590,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
         var text = new Konva.Text({
-          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          x: (sh.position + ((nsh.position - sh.position) / 2)) * ratio,
           y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
           text: sh.force,
           fontSize: 20,
@@ -586,7 +603,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
         var text = new Konva.Text({
-          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          x: (sh.position + ((nsh.position - sh.position) / 2)) * ratio,
           y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
           text: sh.force,
           fontSize: 20,
@@ -598,22 +615,30 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       else if (sh.type == 'distributed') {
         let psh = shear[i - 1]
         shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
+        shearArray.push(50 + (sh.end * ratio), 400 - (sh.force * dRatio))
+        shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
         var text = new Konva.Text({
-          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          x: (sh.position + ((nsh.position - sh.position) / 2)) * ratio,
           y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
           text: sh.force,
           fontSize: 20,
           fontFamily: 'Calibri',
           fill: 'black'
         });
-        layerShear.add(text)
+        const line2 = new Konva.Line({
+          points: [(sh.end * ratio) + 50, 200, (sh.end * ratio) + 50, 1600],
+          stroke: 'grey', // Set the color
+          strokeWidth: 1, // Set the width
+        });
+
+        layerShear.add(text, line2)
       } else if (sh.type == 'triangular') {
         let psh = shear[i - 1]
         shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
         var text = new Konva.Text({
-          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          x: (sh.position + ((nsh.position - sh.position) / 2)) * ratio,
           y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
           text: sh.force,
           fontSize: 20,
@@ -695,7 +720,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       });
 
       // Add the line to the layer
-      layerMoment.add(line,text);
+      layerMoment.add(line, text);
 
 
     }

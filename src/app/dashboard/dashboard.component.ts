@@ -20,15 +20,15 @@ export class DashboardComponent {
   myBeam: Beam = {
     length: 10,
     support: [
-      // { type: 'fixed', position: 0 },
-      // { type: 'fixed', position: 10 },
+      { type: 'fixed', position: 0 },
+      { type: 'roller', position: 8 },
       // { type: 'pinned', position: 100 },
       // { type:'hing',position:75}
     ],
     load: [
-      // { type: 'pin', value: 2, position: 2, angle: 90 },
-      // { type: 'pin', value: 5, position: 6, angle: 90 },
-      // { type: 'distributed', value: 5, start: 3, end: 6, position: 3 },
+      // { type: 'pin', value: 40, position: 2, angle: 90 },
+      { type: 'pin', value: 20, position: 10, angle: 90 },
+      { type: 'distributed', value: 10, start: 0, end: 4, position: 0 },
       // { type: 'triangular', start: 4, end: 8, startValue: 20, endValue: 40, position: 4,value:1 },
       // { type: 'moment', value: 3, position: 8 },
     ],
@@ -131,7 +131,6 @@ export class DashboardComponent {
         this.pinRollorPos = true
       }
     }
-    console.log(this.myBeam);
   }
 
   addToLoad(load: FixedLoad | MomentLoad | DistributedLoad | TriangularLoad) {
@@ -174,8 +173,6 @@ export class DashboardComponent {
       }
 
     }
-    console.log(this.myBeam);
-
   }
 
   reset() {
