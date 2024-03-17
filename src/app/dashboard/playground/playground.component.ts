@@ -535,7 +535,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     let e = 200e9; // Modulus of elasticity in Pa (200 GPa)
     let i = 6.67e-7;
     for (const c of common) {
-      
+
     }
 
 
@@ -572,21 +572,55 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       if (sh.type == 'fixed' || sh.type == 'pinned' || sh.type == 'hing' || sh.type == 'roller') {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
-        console.log(shearArray, 1);
-
+        var text = new Konva.Text({
+          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
+          text: sh.force,
+          fontSize: 20,
+          fontFamily: 'Calibri',
+          fill: 'black'
+        });
+        layerShear.add(text)
       }
       else if (sh.type == 'pin' || sh.type == 'moment') {
         shearArray.push(50 + (sh.position * ratio), 400 - (sh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (sh.force * dRatio))
+        var text = new Konva.Text({
+          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
+          text: sh.force,
+          fontSize: 20,
+          fontFamily: 'Calibri',
+          fill: 'black'
+        });
+        layerShear.add(text)
       }
       else if (sh.type == 'distributed') {
         let psh = shear[i - 1]
         shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
+        var text = new Konva.Text({
+          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
+          text: sh.force,
+          fontSize: 20,
+          fontFamily: 'Calibri',
+          fill: 'black'
+        });
+        layerShear.add(text)
       } else if (sh.type == 'triangular') {
         let psh = shear[i - 1]
         shearArray.push(50 + (sh.position * ratio), 400 - (psh.force * dRatio))
         shearArray.push(50 + (nsh.position * ratio), 400 - (nsh.force * dRatio))
+        var text = new Konva.Text({
+          x: (sh.position +((nsh.position-sh.position)/2))*ratio,
+          y: 400 - (sh.force * dRatio), // Adjust the y-coordinate as needed
+          text: sh.force,
+          fontSize: 20,
+          fontFamily: 'Calibri',
+          fill: 'black'
+        });
+        layerShear.add(text)
       }
       const line = new Konva.Line({
         points: [(sh.position * ratio) + 50, 200, (sh.position * ratio) + 50, 1600],
@@ -645,6 +679,14 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       const sh = Moment[i]
 
       MomentArray.push(50 + (sh.position * ratio), 800 - (sh.moment * dRatio))
+      var text = new Konva.Text({
+        x: 50 + (sh.position * ratio),
+        y: 780 - (sh.moment * dRatio), // Adjust the y-coordinate as needed
+        text: sh.moment,
+        fontSize: 20,
+        fontFamily: 'Calibri',
+        fill: 'black'
+      });
 
       const line = new Konva.Line({
         points: [(sh.position * ratio) + 50, 200, (sh.position * ratio) + 50, 800],
@@ -653,7 +695,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       });
 
       // Add the line to the layer
-      layerMoment.add(line);
+      layerMoment.add(line,text);
 
 
     }
