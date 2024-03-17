@@ -591,6 +591,7 @@ console.log(shearArray);
 
 
     }
+    shearArray.push(50 + (this.beam.length * ratio), 400)
     const last = new Konva.Line({
       points: [900, 200, 900, 1600],
       stroke: 'grey', // Set the color
@@ -647,6 +648,8 @@ console.log(shearArray);
 
 
     }
+    MomentArray.push(50 + (this.beam.length * ratio), 800)
+
     const last = new Konva.Line({
       points: [900, 200, 900, 800],
       stroke: 'grey', // Set the color
