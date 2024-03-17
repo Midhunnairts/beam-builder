@@ -108,10 +108,10 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
 
           } else {
             const triangularLoad = this.createtriangularLoad(
-              (load.position * ratio) + 50,
+              ((load as TriangularLoad).start * ratio) + 50,
               100,
-              200,
-              40,
+              ((load as TriangularLoad).end - (load as TriangularLoad).start)*ratio,
+              ((load as TriangularLoad).endValue - (load as TriangularLoad).startValue),
               5,
               40,
               5
@@ -309,13 +309,17 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
 
   private createtriangularLoad(x: number, y: number, base: number, height: number, numberOfArrows: number, arrowHeight: number, arrowWidth: number): Konva.Shape {
     // Create a right-angled triangle to represent the bending moment
+    console.log('ccc');
+    
     const triangle = new Konva.Shape({
       sceneFunc: (context, shape) => {
         context.beginPath();
-        context.moveTo(x - base / 2, y + height / 2);
-        context.lineTo(x + base / 2, y + height / 2);
-        context.lineTo(x - base / 2, y - height / 2);
+        context.moveTo(x, y); // Starting point
+        context.lineTo(x+base, y); // Top right
+        context.lineTo(x+base, y-height); // Bottom right
+        context.lineTo(x, y-(height/2)); // Bottom left
         context.closePath();
+        // Fill color and stroke color
         context.fillStrokeShape(shape);
       },
       fill: 'gray',
