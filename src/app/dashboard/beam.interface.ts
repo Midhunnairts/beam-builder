@@ -1,7 +1,7 @@
 type SupportType = 'fixed' | 'roller' | 'pinned' | 'hing';
 type LoadType = 'pin' | 'distributed' | 'triangular' | 'moment';
 
-interface BaseLoad {
+export interface BaseLoad {
   type: LoadType;
   position: number;
 }

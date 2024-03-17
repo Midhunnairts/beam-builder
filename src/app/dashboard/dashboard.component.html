@@ -1,6 +1,8 @@
 <app-navbar></app-navbar>
 <div class="outer-wrapper">
+  <!------------------ Sidebar start ------------------>
   <div class="sidebar-section">
+    <!------------------ Sidebar tabs section start ------------------>
     <div class="container">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -97,23 +99,27 @@
                 <h6>Add a Pin support</h6>
                 <div class="form-group">
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true" (change)="addPinnSupport('left')" >
+                    <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true"
+                      (change)="addPinnSupport('left')">
                     <label class="custom-control-label ms-2 cursor-pointer" for="option1">
                       On the left
                     </label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option2" name="options" class="custom-control-input" (change)="addPinnSupport('right')">
+                    <input type="radio" id="option2" name="options" class="custom-control-input"
+                      (change)="addPinnSupport('right')">
                     <label class="custom-control-label ms-2 cursor-pointer" for="option2">
                       On the right
                     </label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option3" name="options" [(ngModel)]="pinSupportPos" class="custom-control-input">
-                    <label class="custom-control-label ms-2 cursor-pointer" for="option3" >
+                    <input type="radio" id="option3" name="options" [(ngModel)]="pinSupportPos"
+                      class="custom-control-input">
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option3">
                       Position (m)
                     </label>
-                    <input type="number" class="input" class="form-control" [disabled]="pinSupportPos" [(ngModel)]="pinSupport.position" />
+                    <input type="number" class="input" class="form-control" [disabled]="pinSupportPos"
+                      [(ngModel)]="pinSupport.position" />
                   </div>
                   <div class="my-3 d-flex justify-content-end">
                     <button class="btn btn-success w-100" (click)="addToSupport(pinSupport)">Add</button>
@@ -125,23 +131,26 @@
                   <h6>Add a Roller support</h6>
                   <div class="form-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true" (change)="addRollerSupport('left')">
+                      <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true"
+                        (change)="addRollerSupport('left')">
                       <label class="custom-control-label ms-2 cursor-pointer" for="option1">
                         On the left
                       </label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="option2" name="options" class="custom-control-input" (change)="addRollerSupport('right')">
+                      <input type="radio" id="option2" name="options" class="custom-control-input"
+                        (change)="addRollerSupport('right')">
                       <label class="custom-control-label ms-2 cursor-pointer" for="option2">
                         On the right
                       </label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="option3" name="options" class="custom-control-input" >
+                      <input type="radio" id="option3" name="options" class="custom-control-input">
                       <label class="custom-control-label ms-2 cursor-pointer" for="option3">
                         Position (m)
                       </label>
-                      <input type="number" class="input" class="form-control" [disabled]="pinRollorPos" [(ngModel)]="pinSupport.position" />
+                      <input type="number" class="input" class="form-control" [disabled]="pinRollorPos"
+                        [(ngModel)]="pinSupport.position" />
                     </div>
                     <div class="my-3 d-flex justify-content-end">
                       <button class="btn btn-success w-100" (click)="addToSupport(rollorSupport)">Add</button>
@@ -153,13 +162,15 @@
                 <h6>Add a Fixed support</h6>
                 <div class="form-group">
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true" (change)="addFixedSupport('left')">
+                    <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true"
+                      (change)="addFixedSupport('left')">
                     <label class="custom-control-label ms-2 cursor-pointer" for="option1">
                       On the left
                     </label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option2" name="options" class="custom-control-input" (change)="addFixedSupport('right')">
+                    <input type="radio" id="option2" name="options" class="custom-control-input"
+                      (change)="addFixedSupport('right')">
                     <label class="custom-control-label ms-2 cursor-pointer" for="option2">
                       On the right
                     </label>
@@ -216,14 +227,14 @@
                 <h6>Add a Point Load</h6>
                 <div class="mt-3">
                   Position (m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="pinLoad.position" />
                 </div>
                 <div class="mt-2">
                   Load Magnitude (kN)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="pinLoad.value" />
                 </div>
                 <div class="my-3 d-flex justify-content-end">
-                  <button class="btn btn-success w-100">Add</button>
+                  <button class="btn btn-success w-100" (click)="addToLoad(pinLoad)">Add</button>
                 </div>
               </div>
               <div class="tab-pane fade" id="tab10" role="tabpanel" aria-labelledby="tab10-tab">
@@ -231,14 +242,14 @@
                   <h6>Add a Bending Momentum</h6>
                   <div class="mt-3">
                     Position (m)
-                    <input type="number" class="input" class="form-control" />
+                    <input type="number" class="input" class="form-control" [(ngModel)]="momentLoad.position" />
                   </div>
                   <div class="mt-2">
                     Moment Magnitude (kN)
-                    <input type="number" class="input" class="form-control" />
+                    <input type="number" class="input" class="form-control" [(ngModel)]="momentLoad.value" />
                   </div>
                   <div class="my-3 d-flex justify-content-end">
-                    <button class="btn btn-success w-100">Add</button>
+                    <button class="btn btn-success w-100" (click)="addToLoad(momentLoad)">Add</button>
                   </div>
                 </div>
               </div>
@@ -246,40 +257,40 @@
                 <h6>Add a Uniformly Distributed Load</h6>
                 <div class="mt-3">
                   Start Position (m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="distributedLoad.start" />
                 </div>
                 <div class="mt-2">
                   End Position (m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="distributedLoad.end" />
                 </div>
                 <div class="mt-2">
                   Load Magnitude (kN/m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="distributedLoad.value" />
                 </div>
                 <div class="my-3 d-flex justify-content-end">
-                  <button class="btn btn-success w-100">Add</button>
+                  <button class="btn btn-success w-100" (click)="addToLoad(distributedLoad)">Add</button>
                 </div>
               </div>
               <div class="tab-pane fade mt-3" id="tab12" role="tabpanel" aria-labelledby="tab12-tab">
                 <h6>Add a Triangular/Trapezoidal Load</h6>
                 <div class="mt-3">
                   Start Position (m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.start" />
                 </div>
                 <div class="mt-2">
                   End Position (m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.end" />
                 </div>
                 <div class="mt-2">
                   Start Magnitude (kN/m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.startValue" />
                 </div>
                 <div class="mt-2">
                   End Magnitude (kN/m)
-                  <input type="number" class="input" class="form-control" />
+                  <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.endValue"/>
                 </div>
                 <div class="my-3 d-flex justify-content-end">
-                  <button class="btn btn-success w-100">Add</button>
+                  <button class="btn btn-success w-100" (click)="addToLoad(triangulaLoad)">Add</button>
                 </div>
               </div>
             </div>
@@ -293,6 +304,8 @@
         </div>
       </div>
     </div>
+    <!------------------ Sidebar tab section end ------------------>
+
 
 
 
@@ -318,9 +331,12 @@
     </div> -->
 
   </div>
+  <!------------------ Sidebar end ------------------>
 
 
+  <!------------------ Canvas start ------------------>
   <div class="drawing-ground">
     <app-playground [beam]="myBeam"></app-playground>
   </div>
+  <!------------------ Canvas End ------------------>
 </div>
