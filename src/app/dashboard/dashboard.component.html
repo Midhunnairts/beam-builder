@@ -131,22 +131,23 @@
                   <h6>Add a Roller support</h6>
                   <div class="form-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true"
+                      <input type="radio" id="option4" name="options" class="custom-control-input" [checked]="true"
                         (change)="addRollerSupport('left')">
-                      <label class="custom-control-label ms-2 cursor-pointer" for="option1">
+                      <label class="custom-control-label ms-2 cursor-pointer" for="option4">
                         On the left
                       </label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="option2" name="options" class="custom-control-input"
+                      <input type="radio" id="option5" name="options" class="custom-control-input"
                         (change)="addRollerSupport('right')">
-                      <label class="custom-control-label ms-2 cursor-pointer" for="option2">
+                      <label class="custom-control-label ms-2 cursor-pointer" for="option5">
                         On the right
                       </label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="option3" name="options" class="custom-control-input" [(ngModel)]="pinRollorPos">
-                      <label class="custom-control-label ms-2 cursor-pointer" for="option3">
+                      <input type="radio" id="option6" name="options" class="custom-control-input"
+                        [(ngModel)]="pinRollorPos">
+                      <label class="custom-control-label ms-2 cursor-pointer" for="option6">
                         Position (m)
                       </label>
                       <input type="number" class="input" class="form-control" [disabled]="pinRollorPos"
@@ -162,16 +163,16 @@
                 <h6>Add a Fixed support</h6>
                 <div class="form-group">
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option1" name="options" class="custom-control-input" [checked]="true"
+                    <input type="radio" id="option7" name="options" class="custom-control-input" [checked]="true"
                       (change)="addFixedSupport('left')">
-                    <label class="custom-control-label ms-2 cursor-pointer" for="option1">
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option7">
                       On the left
                     </label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option2" name="options" class="custom-control-input"
+                    <input type="radio" id="option8" name="options" class="custom-control-input"
                       (change)="addFixedSupport('right')">
-                    <label class="custom-control-label ms-2 cursor-pointer" for="option2">
+                    <label class="custom-control-label ms-2 cursor-pointer" for="option8">
                       On the right
                     </label>
                   </div>
@@ -287,7 +288,7 @@
                 </div>
                 <div class="mt-2">
                   End Magnitude (kN/m)
-                  <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.endValue"/>
+                  <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.endValue" />
                 </div>
                 <div class="my-3 d-flex justify-content-end">
                   <button class="btn btn-success w-100" (click)="addToLoad(triangulaLoad)">Add</button>
@@ -301,6 +302,19 @@
           <div class="my-3 d-flex justify-content-end">
             <button class="btn btn-success w-100" (click)="calculation=calculation+1">Calculate</button>
           </div>
+        </div>
+      </div>
+
+      <div class="mt-5 mb-3">
+        <h6 id="printable-values">Added values</h6>
+        <div id="printable-values6">
+          Length: {{myBeam.length}}m
+        </div>
+        <div *ngFor="let s of myBeam.support;index as i" [id]="'printable-values'+(i+1)">
+          Support: {{s.type}}-{{s.position}}m
+        </div>
+        <div *ngFor="let l of myBeam.load" id="printable-values3">
+          Load: {{l.type}}-{{l.value}}kN
         </div>
       </div>
     </div>

@@ -7,13 +7,14 @@ body {
   box-sizing: border-box;
 }
 
-label{
+label {
   font-weight: 500;
 }
 
 @media print {
   @page {
-    size: A4 landscape;
+    // size: A4 landscape;
+    size: A4 portrait;
     margin: 20px;
   }
 
@@ -21,37 +22,73 @@ label{
     visibility: hidden;
   }
 
-  #printable, #printable, #printable-canvas, #printable-logo, #printable-name, #printable-concrete-calculation, #konva-container * {
+  #printable,
+  #printable,
+  #printable-canvas,
+  #printable-values,
+  #printable-values1,
+  #printable-values2,
+  #printable-values3,
+  #printable-logo,
+  #printable-name,
+  #printable-concrete-calculation,
+  #konva-container * {
     visibility: visible;
   }
 
-  #printable-logo{
+  #printable-logo {
     position: absolute;
     left: 0;
     top: 0px;
   }
 
-  #printable-name{
+  #printable-name {
     position: absolute;
     left: 60px;
     top: 10px;
   }
 
-  #konva-container {
-    position: absolute;
-    left: 40px;
-    top: 0;
-  }
-
-  #printable-canvas{
+  #printable-values {
     position: absolute;
     left: 0;
     top: 60px;
-    width: 97%;
-    height: 600px;
+  }
+  #printable-values6 {
+    position: absolute;
+    left: 0;
+    top: 80px;
+  }
+  #printable-values1 {
+    position: absolute;
+    left: 0;
+    top: 100px;
+  }
+  #printable-values2 {
+    position: absolute;
+    left: 0;
+    top: 120px;
+  }
+  #printable-values3 {
+    position: absolute;
+    left: 0;
+    top: 140px;
   }
 
-  #printable-concrete-calculation{
+  #konva-container {
+    position: absolute;
+    right: 0;
+    top: 160px;
+  }
+
+  // #printable-canvas {
+  //   position: absolute;
+  //   left: 0;
+  //   top: 60px;
+  //   width: 97%;
+  //   height: 600px;
+  // }
+
+  #printable-concrete-calculation {
     position: absolute;
     left: 0;
     top: 60px;
