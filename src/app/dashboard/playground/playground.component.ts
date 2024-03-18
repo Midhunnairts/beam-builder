@@ -506,7 +506,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     }
     let moments = []
     let preCommon
-    
+    let slod=0
     for (const c of common) {
       if (c.position == 0 || c.position == this.beam.length) {
         let o = {
@@ -524,9 +524,9 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           let mom = 0
           if (preCommon.value) {
             if (preCommon.type == 'distributed') {
-              if (preCommon.position==0){
+              if (preCommon.position == 0) {
 
-                let dmom = (ra*preCommon.end) -  ((preCommon.value * (preCommon.end - preCommon.start)) * ((preCommon.end-preCommon.start)/2))
+                let dmom = (ra * preCommon.end) - slod- ((preCommon.value * (preCommon.end - preCommon.start)) * ((preCommon.end - preCommon.start) / 2))
                 let o = {
                   position: preCommon.end,
                   moment: dmom,
@@ -534,18 +534,22 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
                   start: preCommon.start,
                   end: preCommon.end
                 }
-                moments.push(o);                
+                moments.push(o);
               }
-              mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - preCommon.position))
-                          } else if (preCommon.type == 'triangular') {
+              slod=slod+(preCommon.value * (preCommon.end - preCommon.start)) * (c.position - ((preCommon.end - preCommon.start)/2) + preCommon.position)
+              mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - ((preCommon.end - preCommon.start)/2) + preCommon.position))
+              
+            } else if (preCommon.type == 'triangular') {
               let diff = (preCommon as TriangularLoad).end - (preCommon as TriangularLoad).start
               let hdiff = (preCommon as TriangularLoad).endValue - (preCommon as TriangularLoad).startValue
               let tValue = (2 * diff) / 3
               let tarea = diff * hdiff / 2
               let rarea = (preCommon as TriangularLoad).startValue * diff
-              mom = (ra * c.position) - (((tarea + rarea) * diff) * tValue)
+              mom = (ra * c.position) - slod-  (((tarea + rarea) * diff) * tValue)
+              slod=slod+ ((tarea + rarea) * diff) * tValue
             } else {
-              mom = (ra * c.position) - (preCommon.value * (c.position - preCommon.position))
+              mom = (ra * c.position) - slod- (preCommon.value * (c.position - preCommon.position))
+              slod=slod+preCommon.value * (c.position - preCommon.position)
             }
           } else {
             mom = ra * c.position
@@ -560,7 +564,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           moments.push(o);
         }
       }
-            preCommon = c
+      preCommon = c
     }
 
     let diflection = []
@@ -570,6 +574,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
 
     }
 
+    console.log(moments);
 
     return { forces, moments }
   }
@@ -720,7 +725,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     for (let i = 0; i < Moment.length; i++) {
 
       const sh = Moment[i]
-      if(sh.type=='distributed'){
+      if (sh.type == 'distributed') {
         var text = new Konva.Text({
           x: 50 + (sh.end * ratio),
           y: 780 - (sh.moment * dRatio), // Adjust the y-coordinate as needed
@@ -729,13 +734,13 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           fontFamily: 'Calibri',
           fill: 'black'
         });
-  
+
         const line = new Konva.Line({
           points: [(sh.position * ratio) + 50, 200, (sh.position * ratio) + 50, 800],
           stroke: 'grey', // Set the color
           strokeWidth: 1, // Set the width
         });
-        layerMoment.add( text);
+        layerMoment.add(text);
       }
 
       MomentArray.push(50 + (sh.position * ratio), 800 - (sh.moment * dRatio))
@@ -755,7 +760,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       });
 
       // Add the line to the layer
-      layerMoment.add( text);
+      layerMoment.add(text);
 
 
     }
