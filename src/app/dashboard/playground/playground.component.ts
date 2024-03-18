@@ -413,7 +413,12 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       }
     }
     rb = sumLoad / lastSupportPosition
-    ra = sload - (sumLoad / lastSupportPosition)
+    if (rb == Infinity) {
+      ra = sload
+    } else {
+
+      ra = sload - (sumLoad / lastSupportPosition)
+    }
 
 
 
@@ -455,14 +460,14 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         }
       }
       else {
+        let obj: { position: number, force: number, type: string, start: number, end: number } = {
+          position: 0,
+          force: 0,
+          type: '',
+          start: c.position,
+          end: c.position
+        };
         if (prevValue) {
-          let obj: { position: number, force: number, type: string, start: number, end: number } = {
-            position: 0,
-            force: 0,
-            type: '',
-            start: c.position,
-            end: c.position
-          };
 
           if (c.type == 'distributed') {
 
@@ -502,69 +507,118 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           )
           prevValue = obj
         }
+        else {
+          obj = {
+            position: c.position,
+            force: 0 - c.value,
+            type: c.type,
+            start: c.position,
+            end: c.position
+          }
+          forces.push(
+            obj
+          )
+        }
       }
     }
     let moments = []
     let preCommon
-    let slod=0
-    for (const c of common) {
-      if (c.position == 0 || c.position == this.beam.length) {
+    let slod = 0
+    if (rb == Infinity) {
+      for (let i = 0; i < common.length; i++) {
+        let total = 0
+        let sh = common[i]
+
+        for (let j = i + 1; j < common.length; j++) {
+          let ch = common[j]
+          if (ch.type == "distributed") {
+            total = total + (ch.value * (ch.end - ch.start - sh.position) / 2)
+
+          } else if (ch.type == "triangular") {
+            let diff = (ch as TriangularLoad).end - (ch as TriangularLoad).start
+            let hdiff = (ch as TriangularLoad).endValue - (ch as TriangularLoad).startValue
+            let tValue = (2 * diff) / 3
+            let tarea = diff * hdiff / 2
+            let rarea = (ch as TriangularLoad).startValue * diff
+            total = total + ((tarea + rarea) * (tValue + ch.position - sh.position))
+          } else {
+
+            total = total + ((ch.position - sh.position) * ch.value)
+          }
+
+        }
+
         let o = {
-          position: c.position,
-          moment: 0,
-          type: c.type,
-          start: c.start,
-          end: c.end
+          position: sh.position,
+          moment: 0 - total,
+          type: sh.type,
+          start: sh.start,
+          end: sh.end
         }
         moments.push(o);
+
       }
-      else {
-        if (preCommon) {
+    } else {
 
-          let mom = 0
-          if (preCommon.value) {
-            if (preCommon.type == 'distributed') {
-              if (preCommon.position == 0) {
-
-                let dmom = (ra * preCommon.end) - slod- ((preCommon.value * (preCommon.end - preCommon.start)) * ((preCommon.end - preCommon.start) / 2))
-                let o = {
-                  position: preCommon.end,
-                  moment: dmom,
-                  type: preCommon.type,
-                  start: preCommon.start,
-                  end: preCommon.end
-                }
-                moments.push(o);
-              }
-              slod=slod+(preCommon.value * (preCommon.end - preCommon.start)) * (c.position - ((preCommon.end - preCommon.start)/2) + preCommon.position)
-              mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - ((preCommon.end - preCommon.start)/2) + preCommon.position))
-              
-            } else if (preCommon.type == 'triangular') {
-              let diff = (preCommon as TriangularLoad).end - (preCommon as TriangularLoad).start
-              let hdiff = (preCommon as TriangularLoad).endValue - (preCommon as TriangularLoad).startValue
-              let tValue = (2 * diff) / 3
-              let tarea = diff * hdiff / 2
-              let rarea = (preCommon as TriangularLoad).startValue * diff
-              mom = (ra * c.position) - slod-  (((tarea + rarea) * diff) * tValue)
-              slod=slod+ ((tarea + rarea) * diff) * tValue
-            } else {
-              mom = (ra * c.position) - slod- (preCommon.value * (c.position - preCommon.position))
-              slod=slod+preCommon.value * (c.position - preCommon.position)
-            }
-          } else {
-            mom = ra * c.position
-          }
+      for (const c of common) {
+        if (c.position == 0 || c.position == this.beam.length) {
           let o = {
             position: c.position,
-            moment: mom,
+            moment: 0,
             type: c.type,
             start: c.start,
             end: c.end
           }
           moments.push(o);
         }
+        else {
+          if (preCommon) {
+
+            let mom = 0
+            if (preCommon.value) {
+              if (preCommon.type == 'distributed') {
+                if (preCommon.position == 0) {
+
+                  let dmom = (ra * preCommon.end) - slod - ((preCommon.value * (preCommon.end - preCommon.start)) * ((preCommon.end - preCommon.start) / 2))
+                  let o = {
+                    position: preCommon.end,
+                    moment: dmom,
+                    type: preCommon.type,
+                    start: preCommon.start,
+                    end: preCommon.end
+                  }
+                  moments.push(o);
+                }
+                slod = slod + (preCommon.value * (preCommon.end - preCommon.start)) * (c.position - ((preCommon.end - preCommon.start) / 2) + preCommon.position)
+                mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - ((preCommon.end - preCommon.start) / 2) + preCommon.position))
+
+              } else if (preCommon.type == 'triangular') {
+                let diff = (preCommon as TriangularLoad).end - (preCommon as TriangularLoad).start
+                let hdiff = (preCommon as TriangularLoad).endValue - (preCommon as TriangularLoad).startValue
+                let tValue = (2 * diff) / 3
+                let tarea = diff * hdiff / 2
+                let rarea = (preCommon as TriangularLoad).startValue * diff
+                mom = (ra * c.position) - slod - (((tarea + rarea) * diff) * tValue)
+                slod = slod + ((tarea + rarea) * diff) * tValue
+              } else {
+                mom = (ra * c.position) - slod - (preCommon.value * (c.position - preCommon.position))
+                slod = slod + preCommon.value * (c.position - preCommon.position)
+              }
+            } else {
+              mom = ra * c.position
+            }
+            let o = {
+              position: c.position,
+              moment: mom,
+              type: c.type,
+              start: c.start,
+              end: c.end
+            }
+            moments.push(o);
+          }
+        }
+        preCommon = c
       }
-      preCommon = c
     }
 
     let diflection = []
@@ -600,7 +654,6 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         break;
       }
     }
-    console.log(shear);
 
     for (let i = 0; i < shear.length - 1; i++) {
 
@@ -675,7 +728,6 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
         stroke: 'grey', // Set the color
         strokeWidth: 1, // Set the width
       });
-      console.log(shearArray);
 
       // Add the line to the layer
       layerShear.add(line);
