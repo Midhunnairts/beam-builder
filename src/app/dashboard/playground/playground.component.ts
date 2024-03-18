@@ -506,7 +506,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     }
     let moments = []
     let preCommon
-
+    
     for (const c of common) {
       if (c.position == 0 || c.position == this.beam.length) {
         let o = {
@@ -524,8 +524,20 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           let mom = 0
           if (preCommon.value) {
             if (preCommon.type == 'distributed') {
+              if (preCommon.position==0){
+
+                let dmom = (ra*preCommon.end) -  ((preCommon.value * (preCommon.end - preCommon.start)) * ((preCommon.end-preCommon.start)/2))
+                let o = {
+                  position: preCommon.end,
+                  moment: dmom,
+                  type: preCommon.type,
+                  start: preCommon.start,
+                  end: preCommon.end
+                }
+                moments.push(o);                
+              }
               mom = (ra * c.position) - ((preCommon.value * (preCommon.end - preCommon.start)) * (c.position - preCommon.position))
-            } else if (preCommon.type == 'triangular') {
+                          } else if (preCommon.type == 'triangular') {
               let diff = (preCommon as TriangularLoad).end - (preCommon as TriangularLoad).start
               let hdiff = (preCommon as TriangularLoad).endValue - (preCommon as TriangularLoad).startValue
               let tValue = (2 * diff) / 3
@@ -548,7 +560,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
           moments.push(o);
         }
       }
-      preCommon = c
+            preCommon = c
     }
 
     let diflection = []
