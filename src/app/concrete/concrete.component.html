@@ -1,156 +1,268 @@
 <app-navbar></app-navbar>
-<h2 class="px-5 pt-3" id="printable">Calculator</h2>
-<div class="d-md-flex gap-5 m-3 px-4">
-  <div class="d-flex flex-column gap-3">
-    <div class="concrete-input-wrapper">
-      <label for="beamLength" id="printable"> Length</label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="beamLength" [(ngModel)]="beamLength" (keypress)="handleKeyPress($event, calculateM)"
-          class="form-control" id="printable" />
-        <span id="printable">mm</span>
+<h2 class="px-5 pt-3 text-center my-3" id="printable">Beam Design</h2>
+<div class="d-flex justify-content-md-center">
+  <div class="d-md-flex gap-5 m-3 px-4">
+    <div class="d-flex flex-column gap-3">
+      <div class="concrete-input-wrapper">
+        <label for="beamLength" id="printable"> b</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="beamLength" [(ngModel)]="beamLength" (keypress)="handleKeyPress($event, calculateM)"
+            class="form-control" id="printable" />
+          <span id="printable">m</span>
+        </div>
       </div>
-    </div>
-    <div class="concrete-input-wrapper">
-      <label for="beamDepth" id="printable"> Depth</label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="beamDepth" [(ngModel)]="beamDepth" (keypress)="handleKeyPress($event, calculateM)"
-          class="form-control" id="printable" />
-        <span id="printable">mm</span>
+      <div class="concrete-input-wrapper">
+        <label for="beamDepth" id="printable"> Depth</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="beamDepth" [(ngModel)]="overallDepth" (keypress)="handleKeyPress($event, calculateM)"
+            class="form-control" id="printable" />
+          <span id="printable">mm</span>
+        </div>
       </div>
-    </div>
-    <div class="concrete-input-wrapper">
-      <label for="effective" id="printable"> Effective cover</label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="effective" [(ngModel)]="effectiveCover" (keypress)="handleKeyPress($event, calculateM)"
-          class="form-control"  id="printable"/>
-        <span id="printable">mm</span>
+      <div class="concrete-input-wrapper">
+        <label for="beamDepth" id="printable"> Load</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="beamDepth" [(ngModel)]="  beamLoad" (keypress)="handleKeyPress($event, calculateM)"
+            class="form-control" id="printable" />
+          <span id="printable">KN/m</span>
+        </div>
       </div>
-    </div>
-    <div class="concrete-input-wrapper"> <label for="bendingMoment" id="printable" id="printable">Bending Moment</label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="bendingMoment" id="printable" id="printable" [(ngModel)]="bendingMoment"
-          (keypress)="handleKeyPress($event, calculateM)" class="form-control" />
-        <span id="printable" id="printable">Nm</span>
+      <div class="concrete-input-wrapper">
+        <label for="beamDepth" id="printable"> Length</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="beamDepth" [(ngModel)]="length" (keypress)="handleKeyPress($event, calculateM)"
+            class="form-control" id="printable" />
+          <span id="printable">m</span>
+        </div>
       </div>
-    </div>
-    <div class="concrete-input-wrapper">
-      <label for="sigmaCBC" id="printable">σ<sub>cbc</sub></label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="sigmaCBC" id="printable" [(ngModel)]="sigmaCBC" (keypress)="handleKeyPress($event, calculateM)"
-          class="form-control" />
-        <span id="printable">N/mm²</span>
+      <div class="concrete-input-wrapper">
+        <label for="effective" id="printable"> Effective cover</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="effective" [(ngModel)]="effectiveCover"
+            (keypress)="handleKeyPress($event, calculateM)" class="form-control" id="printable" />
+          <span id="printable">mm</span>
+        </div>
       </div>
-    </div>
-    <div class="concrete-input-wrapper">
-      <label for="sigmaST" id="printable">σ<sub>st</sub></label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="sigmaST" id="printable" [(ngModel)]="sigmaST" (keypress)="handleKeyPress($event, calculateM)"
-          class="form-control" />
-        <span id="printable">N/mm²</span>
+      <div class="concrete-input-wrapper">
+        <label for="effective" id="printable"> fck</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="effective" [(ngModel)]="fCK"
+            (keypress)="handleKeyPress($event, calculateM)" class="form-control" id="printable" />
+          <span id="printable">N/mm²</span>
+        </div>
       </div>
-    </div>
-    <div class="concrete-input-wrapper">
-      <label for="noOfBars" id="printable">No of bars</label>
-      <div class="d-flex gap-2 align-items-center">
-        <input type="number" id="noOfBars" id="printable" [(ngModel)]="noOfBars" (keypress)="handleKeyPress($event, calculateAPhi)"
-          class="form-control" />
-        <span></span>
+      <div class="concrete-input-wrapper">
+        <label for="effective" id="printable"> fy</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="effective" [(ngModel)]="fY"
+            (keypress)="handleKeyPress($event, calculateM)" class="form-control" id="printable" />
+          <span id="printable">N/mm²</span>
+        </div>
       </div>
-    </div>
-    <div class="d-md-flex gap-3 my-3">
-      <button (click)="resetCalculated()" class="btn btn-light col-md-6 mb-3">
-        Reset
-      </button>
+      <!-- <div class="concrete-input-wrapper"> <label for="bendingMoment" id="printable" id="printable">Bending
+          Moment</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="bendingMoment" id="printable" id="printable" [(ngModel)]="bendingMoment"
+            (keypress)="handleKeyPress($event, calculateM)" class="form-control" />
+          <span id="printable" id="printable">Nm</span>
+        </div>
+      </div> -->
+      <div class="concrete-input-wrapper">
+        <label for="sigmaCBC" id="printable">σ<sub>cbc</sub></label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="sigmaCBC" id="printable" [(ngModel)]="sigmaCBC"
+            (keypress)="handleKeyPress($event, calculateM)" class="form-control" />
+          <span id="printable">N/mm²</span>
+        </div>
+      </div>
+      <div class="concrete-input-wrapper">
+        <label for="sigmaST" id="printable">σ<sub>st</sub></label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="sigmaST" id="printable" [(ngModel)]="sigmaST"
+            (keypress)="handleKeyPress($event, calculateM)" class="form-control" />
+          <span id="printable">N/mm²</span>
+        </div>
+      </div>
+      <div class="concrete-input-wrapper">
+        <label for="noOfBars" id="printable">Diameter of reignforcement</label>
+        <div class="d-flex gap-2 align-items-center">
+          <input type="number" id="noOfBars" id="printable" [(ngModel)]="areaOfBars"
+            (keypress)="handleKeyPress($event, calculateAPhi)" class="form-control" />
+          <span></span>
+        </div>
+      </div>
+      <div class="d-md-flex gap-3 my-3">
+        <button (click)="resetCalculated()" class="btn btn-light col-md-6 mb-3">
+          Reset
+        </button>
 
-      <button (click)="calculate()" class="btn btn-dark col-md-6 col-12 mb-3">
-        Calculate
-      </button>
+        <button (click)="calculate()" class="btn btn-dark col-md-6 col-12 mb-3">
+          Calculate
+        </button>
+      </div>
     </div>
-  </div>
-  <div>
-    <div class="values-output">
-      <p class="" id="printable">m:</p>
-      <p class="" *ngIf="m !== ''" id="printable">
-        <b id="printable">{{ m }}</b> mm
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">k:</p>
-      <p class="" *ngIf="k !== ''" id="printable">
-        <b id="printable">{{ k }}</b>
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">j:</p>
-      <p class="" *ngIf="j !== ''" id="printable">
-        <b id="printable">{{ j }}</b>
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">r:</p>
-      <p class="" *ngIf="r !== ''" id="printable">
-        <b id="printable">{{ r }}</b> N/mm²
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">n:</p>
-      <p class="" *ngIf="n !== ''" id="printable">
-        <b id="printable">{{ n }}</b> mm
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">m1:</p>
-      <p class="" *ngIf="mOne !== ''" id="printable">
-        <b id="printable">{{ mOne }}</b> Nmm
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">m2:</p>
-      <p class="" *ngIf="mTwo !== ''" id="printable">
-        <b id="printable">{{ mTwo }}</b> Nmm
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">Ast1:</p>
-      <p class="" *ngIf="aSTOne !== ''" id="printable">
-        <b id="printable">{{ aSTOne }}</b> mm²
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">Ast2:</p>
-      <p class="" *ngIf="aSTTwo !== ''" id="printable">
-        <b id="printable">{{ aSTTwo }}</b> mm²
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">Ast:</p>
-      <p class="" *ngIf="aST !== ''" id="printable">
-        <b id="printable">{{ aST }}</b> mm²
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">AΦ:</p>
-      <p class="" *ngIf="aPhi !== ''" id="printable">
-        <b id="printable">{{ aPhi }}</b> mm²
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">No of bars:</p>
-      <p class="" *ngIf="barsRequired !== ''" id="printable">
-        <b id="printable">{{ barsRequired }}</b>
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">Asc:</p>
-      <p class="" *ngIf="aSC !== ''" id="printable">
-        <b id="printable">{{ aSC }}</b> mm²
-      </p>
-    </div>
-    <div class="values-output">
-      <p class="" id="printable">Bars required:</p>
-      <p class="" *ngIf="totalNoOfBars !== ''" id="printable">
-        <b id="printable">{{ totalNoOfBars }}</b>
-      </p>
+    <div>
+      <table>
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+      <div class="values-output">
+        <p class="" id="printable">m:</p>
+        <p class="" *ngIf="m !== ''" id="printable">
+          <b id="printable">{{ m }}</b> mm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">d:</p>
+        <p class="" *ngIf="beamDepth !== ''" id="printable">
+          <b id="printable">{{ beamDepth }}</b> mm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Self weight:</p>
+        <p class="" *ngIf="selfWeight !== ''" id="printable">
+          <b id="printable">{{ selfWeight }}</b> KN/m
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Total load:</p>
+        <p class="" *ngIf="totalLoad !== ''" id="printable">
+          <b id="printable">{{ totalLoad }}</b> KN/m
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Factorial load:</p>
+        <p class="" *ngIf="factorialLoad !== ''" id="printable">
+          <b id="printable">{{ factorialLoad }}</b> KN/m
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">k:</p>
+        <p class="" *ngIf="k !== ''" id="printable">
+          <b id="printable">{{ k }}</b>
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">j:</p>
+        <p class="" *ngIf="j !== ''" id="printable">
+          <b id="printable">{{ j }}</b>
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">r:</p>
+        <p class="" *ngIf="r !== ''" id="printable">
+          <b id="printable">{{ r }}</b> N/mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">n:</p>
+        <p class="" *ngIf="n !== ''" id="printable">
+          <b id="printable">{{ n }}</b> mm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">mu:</p>
+        <p class="" *ngIf="mU !== ''" id="printable">
+          <b id="printable">{{ mU }}</b> KNm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">mulim:</p>
+        <p class="" *ngIf="mULim !== ''" id="printable">
+          <b id="printable">{{ mULim }}</b> KNm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">m1:</p>
+        <p class="" *ngIf="mOne !== ''" id="printable">
+          <b id="printable">{{ mOne }}</b> Nmm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">m2:</p>
+        <p class="" *ngIf="mTwo !== ''" id="printable">
+          <b id="printable">{{ mTwo }}</b> Nmm
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Ast1:</p>
+        <p class="" *ngIf="aSTOne !== ''" id="printable">
+          <b id="printable">{{ aSTOne }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Ast2:</p>
+        <p class="" *ngIf="aSTTwo !== ''" id="printable">
+          <b id="printable">{{ aSTTwo }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Ast:</p>
+        <p class="" *ngIf="aST !== ''" id="printable">
+          <b id="printable">{{ aST }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Ast provided:</p>
+        <p class="" *ngIf="aSTProvided !== ''" id="printable">
+          <b id="printable">{{ aSTProvided }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Ast provided one:</p>
+        <p class="" *ngIf="aSTProvidedOne !== ''" id="printable">
+          <b id="printable">{{ aSTProvidedOne }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Astmin:</p>
+        <p class="" *ngIf="aSTMin !== ''" id="printable">
+          <b id="printable">{{ aSTMin }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Max Reinforcement:</p>
+        <p class="" *ngIf="maxReinforcement !== ''" id="printable">
+          <b id="printable">{{ maxReinforcement }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Area of bar:</p>
+        <p class="" *ngIf="aPhi !== ''" id="printable">
+          <b id="printable">{{ aPhi }}</b> mm²
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">No of bars:</p>
+        <p class="" *ngIf="barsRequired !== ''" id="printable">
+          <b id="printable">{{ barsRequired }}</b>
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Asc:</p>
+        <p class="" *ngIf="aSC !== ''" id="printable">
+          <b id="printable">{{ aSC }}</b> mm²
+        </p>
+      </div>
+      <!-- <div class="values-output">
+        <p class="" id="printable">No of Bars:</p>
+        <p class="" *ngIf="totalNoOfBars !== ''" id="printable">
+          <b id="printable">{{ totalNoOfBars }}</b>
+        </p>
+      </div> -->
+      <div class="values-output">
+        <p class="" id="printable">Result:</p>
+        <p class="" *ngIf="result !== ''" id="printable">
+          <b id="printable">{{ result }}</b>
+        </p>
+      </div>
+      <div class="values-output">
+        <p class="" id="printable">Final Result:</p>
+        <p class="" *ngIf="finalResult !== ''" id="printable">
+          <b id="printable">{{ finalResult }}</b>
+        </p>
+      </div>
     </div>
   </div>
 </div>
