@@ -12,11 +12,15 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
   @Input() calculation: number = 0
   private stage !: Konva.Stage
   private layer !: Konva.Layer
+  private gridlayer !: Konva.Layer
+  scale = 1;
+
+
   @ViewChild('konvaContainer') container!: ElementRef;
   ngOnChanges(changes: SimpleChanges): void {
     if (this.stage) {
 
-      this.stage.removeChildren()
+      this.layer.remove()
     }
     setTimeout(() => {
       const ratio = 850 / this.beam.length
@@ -110,8 +114,8 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
             const triangularLoad = this.createtriangularLoad(
               ((load as TriangularLoad).start * ratio) + 50,
               100,
-              ((load as TriangularLoad).end - (load as TriangularLoad).start) * ratio,
-              ((load as TriangularLoad).endValue - (load as TriangularLoad).startValue),
+              (((load as TriangularLoad).end - (load as TriangularLoad).start) * ratio),
+              Math.abs(((load as TriangularLoad).endValue - (load as TriangularLoad).startValue)),
               5,
               40,
               5
@@ -147,6 +151,34 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       height: containerHeight,
       draggable: true
     });
+
+    this.gridlayer = new Konva.Layer();
+    this.stage.add(this.gridlayer);
+
+    // Constants for grid
+    const gridSize = 10;
+    const numRows = 150;
+    const numCols = 150;
+
+    // Add grid of squares
+    for (let row = -40; row < numRows; row++) {
+      for (let col = -40; col < numCols; col++) {
+        const square = new Konva.Rect({
+          x: col * gridSize,
+          y: row * gridSize,
+          width: gridSize,
+          height: gridSize,
+          // fill: 'lightblue',
+          stroke: '#dee2e6',
+          strokeWidth: 1
+        });
+
+        this.gridlayer.add(square);
+      }
+    }
+
+    this.stage.draw();
+   
 
     // Create a layer
 
@@ -853,5 +885,16 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
       default:
         return NaN; // Return NaN for invalid formula numbers
     }
+  }
+
+  updateScale() {
+    this.scale /= 1.3;
+    this.stage.scale({ x: this.scale, y: this.scale });
+    this.stage.batchDraw();
+  }
+  updateScaleout(){
+    this.scale *= 1.3;
+    this.stage.scale({ x: this.scale, y: this.scale });
+    this.stage.batchDraw();
   }
 }
