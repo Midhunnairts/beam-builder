@@ -82,25 +82,47 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
 
         for (const load of this.beam.load) {
           if (load.type == 'pin') {
-            const pinLoad = this.createPinLoad(
-              (load.position * ratio) + 50,
-              100,
-              40
-            );
-            this.layer.add(pinLoad)
+            if (load.value < 0) {
+              const pinLoad = this.createPinLoad(
+                (load.position * ratio) + 50,
+                100,
+                -40
+              );
+              this.layer.add(pinLoad)
+            } else {
+              const pinLoad = this.createPinLoad(
+                (load.position * ratio) + 50,
+                100,
+                40
+              );
+              this.layer.add(pinLoad)
+            }
 
           } else if (load.type == 'distributed') {
             if ('start' in load && 'end' in load) {
-              const distributedLoad = this.createDistributedLoad(
-                (load.position * ratio) + 50,
-                80,
-                (load.end - load.start) * ratio,
-                200 / 40,
-                20,
-                5
-              );
-              this.layer.add(distributedLoad)
+              if (load.value < 0) {
+                const distributedLoad = this.createDistributedLoad(
+                  (load.position * ratio) + 50,
+                  120,
+                  (load.end - load.start) * ratio,
+                  200 / 40,
+                  -20,
+                  5
+                );
+                this.layer.add(distributedLoad)
+              } else {
+                const distributedLoad = this.createDistributedLoad(
+                  (load.position * ratio) + 50,
+                  80,
+                  (load.end - load.start) * ratio,
+                  200 / 40,
+                  20,
+                  5
+                );
+                this.layer.add(distributedLoad)
+              }
             }
+
 
           } else if (load.type == 'moment') {
             const momentLoad = this.createBendingMoment(
@@ -111,16 +133,30 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
             this.layer.add(momentLoad)
 
           } else {
-            const triangularLoad = this.createtriangularLoad(
-              ((load as TriangularLoad).start * ratio) + 50,
-              100,
-              (((load as TriangularLoad).end - (load as TriangularLoad).start) * ratio),
-              Math.abs(((load as TriangularLoad).endValue - (load as TriangularLoad).startValue)),
-              5,
-              40,
-              5
-            );
-            this.layer.add(triangularLoad)
+            if((load as TriangularLoad).startValue<0 || (load as TriangularLoad).endValue<0){
+              const triangularLoad = this.createtriangularLoad(
+                ((load as TriangularLoad).start * ratio) + 50,
+                100,
+                (((load as TriangularLoad).end - (load as TriangularLoad).start) * ratio),
+                -1*Math.abs(((load as TriangularLoad).endValue - (load as TriangularLoad).startValue)),
+                5,
+                -40,
+                5
+              );
+              this.layer.add(triangularLoad)
+            } else {
+              const triangularLoad = this.createtriangularLoad(
+                ((load as TriangularLoad).start * ratio) + 50,
+                100,
+                (((load as TriangularLoad).end - (load as TriangularLoad).start) * ratio),
+                Math.abs(((load as TriangularLoad).endValue - (load as TriangularLoad).startValue)),
+                5,
+                40,
+                5
+              );
+              this.layer.add(triangularLoad)
+            }
+            
 
           }
 
@@ -178,7 +214,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     }
 
     this.stage.draw();
-   
+
 
     // Create a layer
 
@@ -892,7 +928,7 @@ export class PlaygroundComponent implements AfterViewInit, OnChanges {
     this.stage.scale({ x: this.scale, y: this.scale });
     this.stage.batchDraw();
   }
-  updateScaleout(){
+  updateScaleout() {
     this.scale *= 1.3;
     this.stage.scale({ x: this.scale, y: this.scale });
     this.stage.batchDraw();

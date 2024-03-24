@@ -238,6 +238,10 @@
                   Load Magnitude (kN)
                   <input type="number" class="input" class="form-control" [(ngModel)]="pinLoad.value" />
                 </div>
+                <div class="mt-2">
+                  <input type="radio" name="option" [(ngModel)]="pinLoadDirection" value="up"> Up
+                  <input type="radio" name="option" [(ngModel)]="pinLoadDirection" value="down"> Down
+                </div>
                 <div class="my-3 d-flex justify-content-end">
                   <button class="btn btn-success w-100" (click)="addToLoad(pinLoad)">Add</button>
                 </div>
@@ -272,6 +276,10 @@
                   Load Magnitude (kN/m)
                   <input type="number" class="input" class="form-control" [(ngModel)]="distributedLoad.value" />
                 </div>
+                <div class="mt-2">
+                  <input type="radio" name="option1" [(ngModel)]="distributedLoadDirection" value="up"> Up
+                  <input type="radio" name="option1" [(ngModel)]="distributedLoadDirection" value="down"> Down
+                </div>
                 <div class="my-3 d-flex justify-content-end">
                   <button class="btn btn-success w-100" (click)="addToLoad(distributedLoad)">Add</button>
                 </div>
@@ -293,6 +301,10 @@
                 <div class="mt-2">
                   End Magnitude (kN/m)
                   <input type="number" class="input" class="form-control" [(ngModel)]="triangulaLoad.endValue" />
+                </div>
+                <div class="mt-2">
+                  <input type="radio" name="option2" [(ngModel)]="triangularLoadDirection" value="up"> Up
+                  <input type="radio" name="option2" [(ngModel)]="triangularLoadDirection" value="down"> Down
                 </div>
                 <div class="my-3 d-flex justify-content-end">
                   <button class="btn btn-success w-100" (click)="addToLoad(triangulaLoad)">Add</button>

@@ -8,6 +8,11 @@ import { every } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  pinLoadDirection: string='up';
+  momentLoadDirection: string='up';
+  distributedLoadDirection: string='up';
+  triangularLoadDirection: string='up';
+
   constructor(private cdr: ChangeDetectorRef) {
 
   }
@@ -18,19 +23,19 @@ export class DashboardComponent {
   pinSupportPos = true
   pinRollorPos = true
   myBeam: Beam = {
-    length: 17,
+    length: 10,
     support: [
-      { type: 'pinned', position: 3 },
-      { type: 'pinned', position: 13 },
+      // { type: 'pinned', position: 3 },
+      // { type: 'pinned', position: 13 },
       // { type: 'pinned', position: 100 },
       // { type:'hing',position:75}
     ],
     load: [
-      { type: 'pin', value: 90, position: 6, angle: 90 },
+      // { type: 'pin', value: 90, position: 6, angle: 90 },
       // { type: 'pin', value: 20, position: 10, angle: 90 },
       // { type: 'distributed', value: 10, start: 0, end: 4, position: 0 },
-      { type: 'triangular', start: 8, end: 13, startValue: 10, endValue: 0, position: 8,value:1 },
-      { type: 'moment', value: 50, position: 17 },
+      // { type: 'triangular', start: 8, end: 13, startValue: -10, endValue: 0, position: 8,value:1 },
+      // { type: 'moment', value: 50, position: 17 },
     ],
   };
 
@@ -134,8 +139,25 @@ export class DashboardComponent {
   }
 
   addToLoad(load: FixedLoad | MomentLoad | DistributedLoad | TriangularLoad) {
+
     if (load.type == 'distributed' || load.type == 'triangular') {
-      load.position = (load as DistributedLoad | TriangularLoad).start
+      load.position = (load as DistributedLoad | TriangularLoad).start;
+      if (load.type=='distributed'){
+        if(this.distributedLoadDirection=='down'){
+          load.value=load.value*-1
+        }
+      } else if (load.type=='triangular'){
+        if(this.triangularLoadDirection=='down'){
+          (load as TriangularLoad).startValue=(load as TriangularLoad).startValue*-1;
+          (load as TriangularLoad).endValue=(load as TriangularLoad).endValue*-1;
+        }
+      }
+    } else {
+      if (load.type=='pin'){
+        if(this.pinLoadDirection=='down'){
+          load.value=load.value*-1
+        }
+      } 
     }
     this.myBeam.load.push(load);
     this.myBeam = structuredClone(this.myBeam)
