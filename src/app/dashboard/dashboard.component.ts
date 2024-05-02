@@ -206,5 +206,6 @@ export class DashboardComponent {
 
       ],
     }
+    this.calculation=this.calculation+1
   }
 }

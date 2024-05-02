@@ -20,7 +20,7 @@ export class LoginComponent {
       this.sharedService.setLoggedInUsername(this.username);
       this.router.navigate(['/dashboard']);
     } else {
-      alert('password or username incorrect')
+      alert('Password or username incorrect!!!')
     }
   }
 }
